@@ -1,0 +1,30 @@
+*.java       text diff=java
+*.properties text
+*.html       text diff=html
+*.xml        text
+
+*.sql linguist-detectable=true
+*.sql linguist-language=sql
+
+*.txt        text
+*.md         text
+*.markdown   text
+
+*.pdf        binar
+*.sh         text eol=lf
+
+*.ico        binary
+*.png        binary
+*.svg        binary
+
+*.class         binary
+*.dll           binary
+*.ear           binary
+*.jar           binary
+*.so            binary
+*.war           binary
+*.jks           binary
+
+static/* linguist-vendored
+*.js         linguist-vendored
+*.css        linguist-vendored
