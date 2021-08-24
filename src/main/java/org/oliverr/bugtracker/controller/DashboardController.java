@@ -1,5 +1,6 @@
 package org.oliverr.bugtracker.controller;
 
+import org.oliverr.bugtracker.entity.Role;
 import org.oliverr.bugtracker.entity.User;
 import org.oliverr.bugtracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,15 @@ public class DashboardController {
     public String dashboard(Model model, Principal principal) {
         User loggedUser = ur.findByEmail(principal.getName());
         model.addAttribute("user", loggedUser);
+        model.addAttribute("isAdmin", isAdmin(loggedUser));
         return "index";
+    }
+
+    public boolean isAdmin(User loggedUser) {
+        for(Role r : loggedUser.getRoles()) {
+            if(r.getRole().equalsIgnoreCase("admin")) return true;
+        }
+        return false;
     }
 
 }

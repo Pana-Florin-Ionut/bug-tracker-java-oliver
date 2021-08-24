@@ -4,26 +4,20 @@ import org.oliverr.bugtracker.entity.Role;
 import org.oliverr.bugtracker.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetails;;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
-
 public class UserDetailsImpl implements UserDetails {
 
     private User user;
 
-    public UserDetailsImpl(User user) {
-        this.user = user;
-    }
+    public UserDetailsImpl(User user) { this.user = user; }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
-        Set<Role> roles = user.getRoles();
+        HashSet<Role> roles = user.getRoles();
         for(Role role : roles) {
             authorities.add(new SimpleGrantedAuthority(role.getRole()));
         }
