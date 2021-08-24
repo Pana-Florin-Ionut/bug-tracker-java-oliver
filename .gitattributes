@@ -1,16 +1,15 @@
 *.java       text diff=java
 *.properties text
-*.html       text diff=html
 *.xml        text
 
-*.sql linguist-detectable=true
-*.sql linguist-language=sql
+*.sql 	linguist-detectable=true
+*.sql 	linguist-language=sql
 
 *.txt        text
 *.md         text
 *.markdown   text
 
-*.pdf        binar
+*.pdf        binary
 *.sh         text eol=lf
 
 *.ico        binary
@@ -25,6 +24,7 @@
 *.war           binary
 *.jks           binary
 
-static/* linguist-vendored
-*.js         linguist-vendored
-*.css        linguist-vendored
+static/* 	linguist-vendored
+*.js        linguist-vendored
+*.css       linguist-vendored
+*.html      linguist-vendored
