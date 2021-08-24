@@ -1,7 +1,10 @@
 package org.oliverr.bugtracker;
 
+import org.springframework.stereotype.Component;
+
 import java.sql.*;
 
+@Component
 public class DB {
 
     private final String DRIVER = "com.mysql.cj.jdbc.Driver";
