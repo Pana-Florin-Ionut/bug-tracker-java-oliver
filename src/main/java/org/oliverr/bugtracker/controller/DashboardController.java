@@ -4,6 +4,7 @@ import org.oliverr.bugtracker.DB;
 import org.oliverr.bugtracker.entity.Project;
 import org.oliverr.bugtracker.entity.Role;
 import org.oliverr.bugtracker.entity.User;
+import org.oliverr.bugtracker.repository.BugRepository;
 import org.oliverr.bugtracker.repository.TaskRepository;
 import org.oliverr.bugtracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,10 @@ public class DashboardController {
     @Autowired
     public void setTr(TaskRepository tr) { this.tr = tr; }
 
+    private BugRepository br;
+    @Autowired
+    public void setBr(BugRepository br) { this.br = br; }
+
     @RequestMapping("/")
     public String dashboard(Model model, Principal principal) {
         User loggedUser = ur.findByEmail(principal.getName());
@@ -40,6 +45,7 @@ public class DashboardController {
 
         model.addAttribute("projectsCount", projectsCount(loggedUser.getId()));
         model.addAttribute("tasksCount", tasksCount(loggedUser.getId()));
+        model.addAttribute("bugsCount", bugsCount(loggedUser.getId()));
 
         model.addAttribute("projects", getProjects(loggedUser.getId()));
         return "index";
@@ -64,6 +70,7 @@ public class DashboardController {
                 p.setDescription(rs.getString(4));
                 p.setReadme(rs.getString(5));
                 p.setTaskCount(tr.getTaskCount(rs.getLong(1)));
+                p.setBugCount(br.getBugCount(rs.getLong(1)));
 
                 projects.add(p);
             }
@@ -91,6 +98,21 @@ public class DashboardController {
 
     private int tasksCount(long userId) {
         ResultSet rs = db.executeQuery("SELECT COUNT(task_id) FROM tasks WHERE user_id = "+userId+";");
+        int res = 0;
+        try {
+            while(rs.next()) {
+                res = rs.getInt(1);
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return res;
+    }
+
+    private int bugsCount(long userId) {
+        ResultSet rs = db.executeQuery("SELECT COUNT(bug_id) FROM bugs WHERE user_id = "+userId+";");
         int res = 0;
         try {
             while(rs.next()) {

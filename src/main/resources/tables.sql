@@ -38,3 +38,13 @@ CREATE TABLE tasks (
     status varchar(20),
     PRIMARY KEY(task_id)
 );
+
+CREATE TABLE bugs (
+	bug_id bigint NOT NULL AUTO_INCREMENT,
+    project_id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    title varchar(50),
+    description varchar(1000),
+    status varchar(20),
+    PRIMARY KEY(bug_id)
+);
