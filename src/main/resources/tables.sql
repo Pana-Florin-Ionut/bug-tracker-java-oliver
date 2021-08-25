@@ -53,3 +53,12 @@ CREATE TABLE projects_users (
     project_id bigint NOT NULL,
 	user_id bigint NOT NULL
 );
+
+CREATE TABLE notifications (
+	notification_id bigint NOT NULL AUTO_INCREMENT,
+	user_id bigint,
+    message varchar(255),
+    sent varchar(255),
+    isOpened int(10),
+    PRIMARY KEY(notification_id)
+);

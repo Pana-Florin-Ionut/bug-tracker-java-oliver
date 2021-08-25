@@ -60,4 +60,11 @@ public class UserRepository {
         return user;
     }
 
+    public boolean isAdmin(User loggedUser) {
+        for(Role r : loggedUser.getRoles()) {
+            if(r.getRole().equalsIgnoreCase("admin")) return true;
+        }
+        return false;
+    }
+
 }
