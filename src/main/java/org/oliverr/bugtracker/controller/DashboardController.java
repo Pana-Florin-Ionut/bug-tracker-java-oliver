@@ -4,6 +4,7 @@ import org.oliverr.bugtracker.DB;
 import org.oliverr.bugtracker.entity.Project;
 import org.oliverr.bugtracker.entity.Role;
 import org.oliverr.bugtracker.entity.User;
+import org.oliverr.bugtracker.repository.TaskRepository;
 import org.oliverr.bugtracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,14 +20,16 @@ import java.util.ArrayList;
 public class DashboardController {
 
     private UserRepository ur;
-
     @Autowired
     public void setUr(UserRepository ur) { this.ur = ur; }
 
     private DB db;
-
     @Autowired
     public void setDb(DB db) { this.db = db; }
+
+    private TaskRepository tr;
+    @Autowired
+    public void setTr(TaskRepository tr) { this.tr = tr; }
 
     @RequestMapping("/")
     public String dashboard(Model model, Principal principal) {
@@ -34,7 +37,10 @@ public class DashboardController {
         model.addAttribute("user", loggedUser);
         model.addAttribute("isAdmin", isAdmin(loggedUser));
         model.addAttribute("pageTitle", "Dashboard | Bug Tracker");
+
         model.addAttribute("projectsCount", projectsCount(loggedUser.getId()));
+        model.addAttribute("tasksCount", tasksCount(loggedUser.getId()));
+
         model.addAttribute("projects", getProjects(loggedUser.getId()));
         return "index";
     }
@@ -57,6 +63,7 @@ public class DashboardController {
                 p.setTitle(rs.getString(3));
                 p.setDescription(rs.getString(4));
                 p.setReadme(rs.getString(5));
+                p.setTaskCount(tr.getTaskCount(rs.getLong(1)));
 
                 projects.add(p);
             }
@@ -69,6 +76,21 @@ public class DashboardController {
 
     private int projectsCount(long userId) {
         ResultSet rs = db.executeQuery("SELECT COUNT(project_id) FROM projects WHERE user_id = "+userId+";");
+        int res = 0;
+        try {
+            while(rs.next()) {
+                res = rs.getInt(1);
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return res;
+    }
+
+    private int tasksCount(long userId) {
+        ResultSet rs = db.executeQuery("SELECT COUNT(task_id) FROM tasks WHERE user_id = "+userId+";");
         int res = 0;
         try {
             while(rs.next()) {

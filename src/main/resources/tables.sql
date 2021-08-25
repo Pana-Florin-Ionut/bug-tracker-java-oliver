@@ -28,3 +28,13 @@ CREATE TABLE projects (
     readme varchar(1000),
     PRIMARY KEY(project_id)
 );
+
+CREATE TABLE tasks (
+	task_id bigint NOT NULL AUTO_INCREMENT,
+    project_id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    title varchar(50),
+    description varchar(1000),
+    status varchar(20),
+    PRIMARY KEY(task_id)
+);

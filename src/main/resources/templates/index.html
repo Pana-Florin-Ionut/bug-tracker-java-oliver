@@ -40,9 +40,9 @@
                     <div class="row">
                       <div class="col-8 col-sm-12 col-xl-8 my-auto">
                         <div class="d-flex d-sm-block d-md-flex align-items-center">
-                          <h2 class="mb-0">141</h2>
+                          <h2 class="mb-0" th:text="${tasksCount}">0</h2>
                         </div>
-                        <h6 class="text-muted font-weight-normal">37 Since last month</h6>
+                        <h6 class="text-muted font-weight-normal"><span th:text="${tasksCount}">0</span> Since last month</h6>
                       </div>
                       <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
                         <i class="icon-lg mdi mdi-monitor text-success ml-auto"></i>
@@ -75,34 +75,7 @@
 
             <div class="row">
 
-              <div class="col-md-4 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">History</h4>
-                    <canvas id="transaction-history" class="transaction-chart"></canvas>
-                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
-                      <div class="text-md-center text-xl-left">
-                        <h6 class="mb-1">Closed Bugs</h6>
-                        <p class="text-muted mb-0">07 Jan 2019, 09:12AM</p>
-                      </div>
-                      <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                        <h6 class="font-weight-bold mb-0">236</h6>
-                      </div>
-                    </div>
-                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
-                      <div class="text-md-center text-xl-left">
-                        <h6 class="mb-1">Done Tasks</h6>
-                        <p class="text-muted mb-0">07 Jan 2019, 09:12AM</p>
-                      </div>
-                      <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                        <h6 class="font-weight-bold mb-0">593</h6>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-8 grid-margin stretch-card">
+              <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <div class="d-flex flex-row justify-content-between">
@@ -127,7 +100,7 @@
                                 </div>
                                 <div class="mr-auto text-sm-right pt-2 pt-sm-0">
                                   <p class="text-muted">1 Contributor</p>
-                                  <p class="text-muted mb-0">30 tasks, 5 bugs </p>
+                                  <p class="text-muted mb-0"><span th:text="${project.taskCount}">0</span> task(s), 5 bug(s) </p>
                                 </div>
                               </div>
                             </div>
