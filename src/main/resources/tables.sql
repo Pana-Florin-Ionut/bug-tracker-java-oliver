@@ -19,3 +19,12 @@ CREATE TABLE users_roles (
 	user_id bigint NOT NULL,
     role_id bigint NOT NULL
 );
+
+CREATE TABLE projects (
+	project_id bigint NOT NULL AUTO_INCREMENT,
+    user_id bigint NOT NULL,
+    title varchar(30),
+    description varchar(30),
+    readme varchar(1000),
+    PRIMARY KEY(project_id)
+);

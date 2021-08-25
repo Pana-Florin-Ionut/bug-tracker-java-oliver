@@ -1,9 +1,7 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar" th:fragment="sidebar">
     <ul class="nav">
-        <li class="nav-item nav-category">
-            <span class="nav-link"></span>
-        </li>
-        <li class="nav-item menu-items">
+
+        <li class="nav-item menu-items" th:class="${#strings.equals(pageTitle,'Dashboard | Bug Tracker')} ? 'active nav-item menu-items' : 'nav-item menu-items'">
             <a class="nav-link" href="/">
               <span class="menu-icon">
                 <i class="mdi mdi-speedometer"></i>
@@ -12,7 +10,7 @@
             </a>
         </li>
 
-        <li th:if="${isAdmin}" class="nav-item menu-items">
+        <li th:if="${isAdmin}" class="nav-item menu-items" th:class="${#strings.equals(pageTitle,'Employees | Bug Tracker')} ? 'active nav-item menu-items' : 'nav-item menu-items'">
             <a class="nav-link" href="/employees">
               <span class="menu-icon">
                 <i class="mdi mdi-account-multiple"></i>
@@ -21,8 +19,8 @@
             </a>
         </li>
 
-        <li class="nav-item menu-items">
-            <a class="nav-link" data-toggle="collapse" href="/projects">
+        <li class="nav-item menu-items" th:class="${#strings.equals(pageTitle,'Projects | Bug Tracker')} ? 'active nav-item menu-items' : 'nav-item menu-items'">
+            <a class="nav-link" href="/projects">
               <span class="menu-icon">
                 <i class="mdi mdi-laptop"></i>
               </span>
@@ -30,7 +28,7 @@
             </a>
         </li>
 
-        <li class="nav-item menu-items">
+        <li class="nav-item menu-items" th:class="${#strings.equals(pageTitle,'Tasks | Bug Tracker')} ? 'active nav-item menu-items' : 'nav-item menu-items'">
             <a class="nav-link" href="/tasks">
               <span class="menu-icon">
                 <i class="mdi mdi-playlist-play"></i>
@@ -39,7 +37,7 @@
             </a>
         </li>
 
-        <li class="nav-item menu-items">
+        <li class="nav-item menu-items" th:class="${#strings.equals(pageTitle,'Bugs | Bug Tracker')} ? 'active nav-item menu-items' : 'nav-item menu-items'">
             <a class="nav-link" href="/bugs">
               <span class="menu-icon">
                 <i class="mdi mdi-table-large"></i>
@@ -48,7 +46,7 @@
             </a>
         </li>
 
-        <li class="nav-item menu-items">
+        <li class="nav-item menu-items" th:class="${#strings.equals(pageTitle,'Notifications | Bug Tracker')} ? 'active nav-item menu-items' : 'nav-item menu-items'">
             <a class="nav-link" href="/notifications">
               <span class="menu-icon">
                 <i class="mdi mdi-file-document-box"></i>
@@ -57,7 +55,7 @@
             </a>
         </li>
 
-        <li class="nav-item menu-items">
+        <li class="nav-item menu-items" th:class="${#strings.equals(pageTitle,'Profile | Bug Tracker')} ? 'active nav-item menu-items' : 'nav-item menu-items'">
             <a class="nav-link" href="/profile">
               <span class="menu-icon">
                 <i class="mdi mdi-account"></i>
