@@ -9,6 +9,7 @@ public class Project {
     private String readme;
     private int taskCount;
     private int bugCount;
+    private int contributors;
 
     public Project() {
 
@@ -34,5 +35,8 @@ public class Project {
 
     public int getBugCount() { return bugCount; }
     public void setBugCount(int bugCount) { this.bugCount = bugCount; }
+
+    public int getContributors() { return contributors; }
+    public void setContributors(int contributors) { this.contributors = contributors; }
 
 }

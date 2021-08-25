@@ -5,6 +5,7 @@ import org.oliverr.bugtracker.entity.Project;
 import org.oliverr.bugtracker.entity.Role;
 import org.oliverr.bugtracker.entity.User;
 import org.oliverr.bugtracker.repository.BugRepository;
+import org.oliverr.bugtracker.repository.ContributorRepository;
 import org.oliverr.bugtracker.repository.TaskRepository;
 import org.oliverr.bugtracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,10 @@ public class DashboardController {
     private BugRepository br;
     @Autowired
     public void setBr(BugRepository br) { this.br = br; }
+
+    private ContributorRepository cr;
+    @Autowired
+    public void setCr(ContributorRepository cr) { this.cr = cr; }
 
     @RequestMapping("/")
     public String dashboard(Model model, Principal principal) {
@@ -71,6 +76,7 @@ public class DashboardController {
                 p.setReadme(rs.getString(5));
                 p.setTaskCount(tr.getTaskCount(rs.getLong(1)));
                 p.setBugCount(br.getBugCount(rs.getLong(1)));
+                p.setContributors(cr.contributorsCount(rs.getLong(1)));
 
                 projects.add(p);
             }

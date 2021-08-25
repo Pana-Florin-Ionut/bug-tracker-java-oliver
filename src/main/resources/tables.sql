@@ -48,3 +48,8 @@ CREATE TABLE bugs (
     status varchar(20),
     PRIMARY KEY(bug_id)
 );
+
+CREATE TABLE projects_users (
+    project_id bigint NOT NULL,
+	user_id bigint NOT NULL
+);
