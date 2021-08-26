@@ -62,3 +62,10 @@ CREATE TABLE notifications (
     isOpened int(10),
     PRIMARY KEY(notification_id)
 );
+
+CREATE TABLE todo (
+	todo_id bigint NOT NULL AUTO_INCREMENT,
+    user_id bigint,
+    task varchar(46),
+    PRIMARY KEY(todo_id)
+);

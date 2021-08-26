@@ -42,6 +42,10 @@ public class DashboardController {
     @Autowired
     public void setNr(NotificationRepository nr) { this.nr = nr; }
 
+    private TodoRepository todor;
+    @Autowired
+    public void setTr(TodoRepository todor) { this.todor = todor; }
+
     @RequestMapping("/")
     public String dashboard(Model model, Principal principal) {
         User loggedUser = ur.findByEmail(principal.getName());
@@ -53,6 +57,7 @@ public class DashboardController {
         model.addAttribute("tasksCount", tasksCount(loggedUser.getId()));
         model.addAttribute("bugsCount", bugsCount(loggedUser.getId()));
         model.addAttribute("isUnread", nr.isThereUnread(loggedUser.getId()));
+        model.addAttribute("todos", todor.getTodos(loggedUser.getId()));
 
         model.addAttribute("projects", getProjects(loggedUser.getId()));
         model.addAttribute("unreadNotification", nr.getUnreadNotifications(loggedUser.getId()));
