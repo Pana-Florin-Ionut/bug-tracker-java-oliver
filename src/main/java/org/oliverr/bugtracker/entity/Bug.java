@@ -8,6 +8,7 @@ public class Bug {
     private String title;
     private String description;
     private String status;
+    private String projectName;
 
     public Long getBugId() { return bugId; }
     public void setBugId(Long bugId) { this.bugId = bugId; }
@@ -26,5 +27,8 @@ public class Bug {
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+
+    public String getProjectName() { return projectName; }
+    public void setProjectName(String projectName) { this.projectName = projectName; }
 
 }
