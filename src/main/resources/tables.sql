@@ -6,6 +6,7 @@ CREATE TABLE users (
     password varchar(255),
     created date,
     last_login date,
+    image varchar(128),
     PRIMARY KEY(user_id)
 );
 

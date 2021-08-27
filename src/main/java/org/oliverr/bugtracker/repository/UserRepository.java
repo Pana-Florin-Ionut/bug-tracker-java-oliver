@@ -34,6 +34,7 @@ public class UserRepository {
                 user.setPassword(rs.getString(5));
                 user.setCreated(rs.getString(6));
                 user.setLastLogin(rs.getString(7));
+                user.setImage(rs.getString(8));
             }
             rs.close();
         } catch(SQLException e) {

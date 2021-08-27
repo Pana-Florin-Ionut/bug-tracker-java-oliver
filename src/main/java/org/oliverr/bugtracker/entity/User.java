@@ -11,6 +11,7 @@ public class User {
     private String password;
     private String created;
     private String lastLogin;
+    private String image;
 
     private HashSet<Role> roles = new HashSet<Role>();
 
@@ -38,6 +39,9 @@ public class User {
 
     public String getLastLogin() { return lastLogin; }
     public void setLastLogin(String lastLogin) { this.lastLogin = lastLogin; }
+
+    public String getImage() { return image; }
+    public void setImage(String image) { this.image = image; }
 
     public HashSet<Role> getRoles() { return roles; }
     public void setRoles(HashSet<Role> roles) { this.roles = roles; }
