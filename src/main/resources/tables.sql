@@ -67,5 +67,6 @@ CREATE TABLE todo (
 	todo_id bigint NOT NULL AUTO_INCREMENT,
     user_id bigint,
     task varchar(46),
+    status varchar(32),
     PRIMARY KEY(todo_id)
 );

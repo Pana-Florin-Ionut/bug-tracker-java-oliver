@@ -27,6 +27,7 @@ public class TodoRepository {
                 todo.setTodoId(rs.getLong(1));
                 todo.setUserId(rs.getLong(2));
                 todo.setTask(rs.getString(3));
+                todo.setStatus(rs.getString(4));
 
                 todos.add(todo);
             }
@@ -40,7 +41,7 @@ public class TodoRepository {
 
     public void addTodo(String task, Long userId) {
         try {
-            PreparedStatement ps = db.conn.prepareStatement("INSERT INTO todo(user_id, task) VALUES (?, ?);");
+            PreparedStatement ps = db.conn.prepareStatement("INSERT INTO todo(user_id, task, status) VALUES (?, ?, 'pending');");
             ps.setLong(1, userId);
             ps.setString(2, task);
             ps.execute();

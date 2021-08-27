@@ -161,8 +161,8 @@
                         <span th:each="todo : ${todos}">
                           <li>
                             <div class="form-check form-check-primary">
-                              <label class="form-check-label">&nbsp;
-                              <input class="checkbox" type="checkbox" th:text="${todo.task}"></label>
+                              <label th:if="${todo.status} == done" class="form-check-label">&nbsp;<input class="checkbox" type="checkbox" th:text="${todo.task}" checked></label>
+                              <label th:if="${todo.status} == pending" class="form-check-label">&nbsp;<input class="checkbox" type="checkbox" th:text="${todo.task}"></label>
                             </div>
                             <i class="remove mdi mdi-close-box"></i>
                           </li>
