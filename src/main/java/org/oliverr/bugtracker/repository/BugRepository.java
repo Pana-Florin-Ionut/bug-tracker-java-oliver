@@ -5,6 +5,7 @@ import org.oliverr.bugtracker.entity.Bug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -68,6 +69,20 @@ public class BugRepository {
         }
 
         return bugs;
+    }
+
+    public void addBug(long projectId, long userId, String title, String description, String status) {
+        try {
+            PreparedStatement ps = db.conn.prepareStatement("INSERT INTO bugs(project_id, user_id, title, description, status) VALUES (?, ?, ?, ?, ?);");
+            ps.setLong(1, projectId);
+            ps.setLong(2, userId);
+            ps.setString(3, title);
+            ps.setString(4, description);
+            ps.setString(5, status);
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

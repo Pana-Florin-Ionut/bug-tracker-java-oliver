@@ -54,31 +54,31 @@
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">Add Bug</h4>
-                    <form class="forms-sample">
+                    <form class="forms-sample" th:action="@{/bugs/add/}" th:object="${bug}" method="post">
 
                       <div class="form-group">
                         <label for="title">Bug Title</label>
-                        <input type="text" class="form-control" id="title" placeholder="Bug Title" required>
+                        <input type="text" th:field="*{title}" class="form-control" id="title" placeholder="Bug Title" required>
                       </div>
 
                       <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea class="form-control" id="description" rows="4"></textarea>
+                        <textarea class="form-control" th:field="*{description}" id="description" rows="4"></textarea>
                       </div>
 
                       <div class="form-group">
                         <label for="status">Status</label>
-                        <select class="form-control" id="status" required>
-                          <option value="1" selected>Pending</option>
-                          <option value="2">In Progress</option>
-                          <option value="3">Completed</option>
+                        <select class="form-control" id="status" th:field="*{status}" required>
+                          <option value="pending" selected>Pending</option>
+                          <option value="in progress">In Progress</option>
+                          <option value="completed">Completed</option>
                         </select>
                       </div>
 
                       <div class="form-group">
-                        <label for="project">Project</label>
-                        <select class="form-control" id="project" required>
-                          <option value="projectid">Project</option>
+                        <label for="projectName">Project</label>
+                        <select class="form-control" th:id="projectName" th:name="projectName" id="projectName" required>
+                          <option th:each="proj : ${projects}" th:value="${proj.title}" th:text="${proj.title}">Project</option>
                         </select>
                       </div>
                       
