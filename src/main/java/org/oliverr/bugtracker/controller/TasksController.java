@@ -1,13 +1,15 @@
 package org.oliverr.bugtracker.controller;
 
 import org.oliverr.bugtracker.DB;
+import org.oliverr.bugtracker.entity.Task;
 import org.oliverr.bugtracker.entity.User;
-import org.oliverr.bugtracker.repository.TaskRepository;
-import org.oliverr.bugtracker.repository.UserRepository;
+import org.oliverr.bugtracker.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.security.Principal;
 
@@ -26,6 +28,10 @@ public class TasksController {
     @Autowired
     public void setTr(TaskRepository tr) { this.tr = tr; }
 
+    private ProjectRepository pr;
+    @Autowired
+    public void setPr(ProjectRepository pr) { this.pr = pr; }
+
     @RequestMapping("/tasks")
     public String tasks(Model model, Principal principal) {
         User loggedUser = ur.findByEmail(principal.getName());
@@ -34,7 +40,20 @@ public class TasksController {
         model.addAttribute("pageTitle", "Tasks | Bug Tracker");
 
         model.addAttribute("allTask", tr.getAllTask(loggedUser.getId()));
+        model.addAttribute("projects", pr.getProjects(loggedUser.getId()));
+
+        model.addAttribute("task", new Task());
+
         return "tasks";
+    }
+
+    @RequestMapping(value = "/tasks/add", method = RequestMethod.POST)
+    public String addTask(@ModelAttribute Task task, Principal principal) {
+        User sender = ur.findByEmail(principal.getName());
+
+        tr.addTask(pr.getProjectIdByName(task.getProjectName()), sender.getId(), task.getTitle(), task.getDescription(), task.getStatus());
+
+        return "redirect:/tasks";
     }
 
 }
