@@ -1,7 +1,6 @@
 package org.oliverr.bugtracker.controller;
 
 import org.oliverr.bugtracker.DB;
-import org.oliverr.bugtracker.entity.Bug;
 import org.oliverr.bugtracker.entity.User;
 import org.oliverr.bugtracker.repository.BugRepository;
 import org.oliverr.bugtracker.repository.UserRepository;
@@ -28,7 +27,7 @@ public class BugsController {
     public void setBr(BugRepository br) { this.br = br; }
 
     @RequestMapping("/bugs")
-    public String tasks(Model model, Principal principal) {
+    public String bugs(Model model, Principal principal) {
         User loggedUser = ur.findByEmail(principal.getName());
         model.addAttribute("user", loggedUser);
         model.addAttribute("isAdmin", ur.isAdmin(loggedUser));

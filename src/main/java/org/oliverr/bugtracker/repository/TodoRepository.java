@@ -5,7 +5,7 @@ import org.oliverr.bugtracker.entity.Todo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Array;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class TodoRepository {
     public ArrayList<Todo> getTodos(Long userId) {
         ArrayList<Todo> todos = new ArrayList<>();
 
-        ResultSet rs = db.executeQuery("SELECT * FROM todo WHERE user_id = "+userId+" ORDER BY todo_id DESC;");
+        ResultSet rs = db.executeQuery("SELECT * FROM todo WHERE user_id = "+userId+" ORDER BY todo_id ASC;");
         try {
             while(rs.next()) {
                 Todo todo = new Todo();
@@ -36,6 +36,26 @@ public class TodoRepository {
         }
 
         return todos;
+    }
+
+    public void addTodo(String task, Long userId) {
+        try {
+            PreparedStatement ps = db.conn.prepareStatement("INSERT INTO todo(user_id, task) VALUES (?, ?);");
+            ps.setLong(1, userId);
+            ps.setString(2, task);
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeTodo(Long todoId) {
+        try {
+            PreparedStatement ps = db.conn.prepareStatement("DELETE FROM todo WHERE todo_id = ?;");
+            ps.setLong(1, todoId);
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

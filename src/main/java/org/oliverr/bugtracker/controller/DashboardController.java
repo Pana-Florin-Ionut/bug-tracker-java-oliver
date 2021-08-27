@@ -2,7 +2,7 @@ package org.oliverr.bugtracker.controller;
 
 import org.oliverr.bugtracker.DB;
 import org.oliverr.bugtracker.entity.Project;
-import org.oliverr.bugtracker.entity.Role;
+import org.oliverr.bugtracker.entity.Todo;
 import org.oliverr.bugtracker.entity.User;
 import org.oliverr.bugtracker.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +61,9 @@ public class DashboardController {
 
         model.addAttribute("projects", getProjects(loggedUser.getId()));
         model.addAttribute("unreadNotification", nr.getUnreadNotifications(loggedUser.getId()));
+
+        model.addAttribute("todo", new Todo());
+
         return "index";
     }
 

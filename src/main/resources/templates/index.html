@@ -151,10 +151,10 @@
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">To do list</h4>
-                    <div class="add-items d-flex">
-                      <input type="text" class="form-control todo-list-input" placeholder="enter task..">
-                      <button class="add btn btn-primary todo-list-add-btn">Add</button>
-                    </div>
+                    <form id="addtodo" th:action="@{/addtodo/}" th:object="${todo}" method="post" class="add-items d-flex">
+                      <input type="text" th:field="*{task}" class="form-control todo-list-input" placeholder="enter task...">
+                      <button class="add btn btn-primary todo-list-add-btn" type="submit" onclick="document.getElementById('addtodo').submit();">Add</button>
+                    </form>
                     <div class="list-wrapper">
                       <ul class="d-flex flex-column-reverse text-white todo-list todo-list-custom">
 
@@ -162,7 +162,7 @@
                           <li>
                             <div class="form-check form-check-primary">
                               <label class="form-check-label">&nbsp;
-                                <input class="checkbox" type="checkbox" th:text="${todo.task}"> Create invoice </label>
+                              <input class="checkbox" type="checkbox" th:text="${todo.task}"></label>
                             </div>
                             <i class="remove mdi mdi-close-box"></i>
                           </li>
@@ -192,7 +192,6 @@
     <script src="/assets/js/hoverable-collapse.js"></script>
     <script src="/assets/js/misc.js"></script>
     <script src="/assets/js/settings.js"></script>
-    <script src="/assets/js/todolist.js"></script>
 
     <script src="assets/js/dashboard.js"></script>
   </body>

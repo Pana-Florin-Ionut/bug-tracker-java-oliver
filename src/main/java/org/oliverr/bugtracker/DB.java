@@ -12,7 +12,7 @@ public class DB {
     private final String USERNAME = "root";
     private final String PASSWORD = "";
 
-    Connection conn = null;
+    public Connection conn = null;
 
     public DB() {
         try {
