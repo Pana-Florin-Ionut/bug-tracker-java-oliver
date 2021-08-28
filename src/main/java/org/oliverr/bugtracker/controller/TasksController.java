@@ -58,7 +58,7 @@ public class TasksController {
     }
 
     @RequestMapping("/task/{taskid}")
-    public String product(Model model, @PathVariable(value="taskid") String taskid, Principal principal) {
+    public String task(Model model, @PathVariable(value="taskid") String taskid, Principal principal) {
         User user = ur.findByEmail(principal.getName());
         try {
             if(tr.isItTheirTask(Long.parseLong(taskid), user.getId())) {

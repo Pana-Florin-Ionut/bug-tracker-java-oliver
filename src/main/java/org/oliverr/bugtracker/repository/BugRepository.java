@@ -131,4 +131,33 @@ public class BugRepository {
         return false;
     }
 
+    public void updateBug(long bugId, long projectId, String title, String description, String status) {
+        try {
+            PreparedStatement ps = db.conn.prepareStatement("UPDATE bugs SET project_id = ?, title = ?, description = ?, status = ? WHERE bug_id = ?;");
+            ps.setLong(1, projectId);
+            ps.setString(2, title);
+            ps.setString(3, description);
+            ps.setString(4, status);
+            ps.setLong(5, bugId);
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int findBugIdByName(String bugTitle, Long userId, String description) {
+        int res = 0;
+
+        ResultSet rs = db.executeQuery("SELECT bug_id FROM bugs WHERE title = '"+bugTitle+"' AND description = '"+description+"' AND user_id = "+userId+";");
+        try {
+            while(rs.next()) {
+                res = rs.getInt(1);
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
 }

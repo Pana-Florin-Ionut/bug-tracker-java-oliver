@@ -14,64 +14,46 @@
           <div class="content-wrapper">
 
             <div class="row">
-              <div class="col-lg-12 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">Bugs</h4>
-                    <div class="table-responsive">
-                      <table class="table">
-                        <thead>
-                          <tr>
-                            <th>Bug Title</th>
-                            <th>Project</th>
-                            <th>Created</th>
-                            <th>Status</th>
-                            <th>Edit</th>
-                          </tr>
-                        </thead>
-                        <tbody th:each="bug : ${allBug}">
-
-                          <tr>
-                            <td><a th:href="@{|/bug/${bug.bugId}|}" href="#" style="color: #6c7293" th:text="${bug.title}">Test 1</a></td>
-                            <td th:text="${bug.projectName}">Project 4</td>
-                            <td>12 May 2021</td>
-                            <td th:if="${bug.status} == pending"><label class="badge badge-danger">Pending</label></td>
-                            <td th:if="${bug.status} == 'in progress'"><label class="badge badge-warning">In Progress</label></td>
-                            <td th:if="${bug.status} == completed"><label class="badge badge-success">Completed</label></td>
-                            <td><a th:href="@{|/bug/${bug.bugId}/edit|}" href="#" style="color: #6c7293; font-size: 1.2rem;" class="mdi mdi-pencil"></a></td>
-                          </tr>
-
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
               <div class="col-12 col-lg-12 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">Add Bug</h4>
-                    <form class="forms-sample" th:action="@{/bugs/add/}" th:object="${bug}" method="post">
+                    <form class="forms-sample" th:action="@{/bugs/edit/}" th:object="${bug}" method="post">
+
+                      <input type ="hidden" th:field="*{bugId}" th:value="${bug.bugId}">
 
                       <div class="form-group">
                         <label for="title">Bug Title</label>
-                        <input type="text" th:field="*{title}" class="form-control" id="title" placeholder="Bug Title" required>
+                        <input type="text" th:field="*{title}" th:value="${bug.title}" class="form-control" id="title" placeholder="Bug Title" required>
                       </div>
 
                       <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea class="form-control" th:field="*{description}" id="description" rows="4"></textarea>
+                        <textarea class="form-control" th:field="*{description}" th:value="${bug.description}" id="description" rows="4"></textarea>
                       </div>
 
-                      <div class="form-group">
-                        <label for="status">Status</label>
-                        <select class="form-control" id="status" th:field="*{status}" required>
+                      <div th:if="${bug.status} == 'pending'" class="form-group">
+                        <label for="pending">Status</label>
+                        <select class="form-control" id="pending" th:field="*{status}" required>
                           <option value="pending" selected>Pending</option>
                           <option value="in progress">In Progress</option>
                           <option value="completed">Completed</option>
+                        </select>
+                      </div>
+                      <div th:if="${bug.status} == 'in progress'" class="form-group">
+                        <label for="progress">Status</label>
+                        <select class="form-control" id="progress" th:field="*{status}" required>
+                          <option value="in progress" selected>In Progress</option>
+                          <option value="pending">Pending</option>
+                          <option value="completed">Completed</option>
+                        </select>
+                      </div>
+                      <div th:if="${bug.status} == 'completed'" class="form-group">
+                        <label for="completed">Status</label>
+                        <select class="form-control" id="completed" th:field="*{status}" required>
+                          <option value="completed" selected>Completed</option>
+                          <option value="pending">Pending</option>
+                          <option value="in progress">In Progress</option>
                         </select>
                       </div>
 

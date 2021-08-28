@@ -38,7 +38,7 @@
                             <td th:if="${foundBug.status} == pending"><label class="badge badge-danger">Pending</label></td>
                             <td th:if="${foundBug.status} == 'in progress'"><label class="badge badge-warning">In Progress</label></td>
                             <td th:if="${foundBug.status} == completed"><label class="badge badge-success">Completed</label></td>
-                            <td><a href="#" style="color: #6c7293; font-size: 1.2rem;" class="mdi mdi-pencil"></a></td>
+                            <td><a th:href="@{|/bug/${foundBug.bugId}/edit|}" href="#" style="color: #6c7293; font-size: 1.2rem;" class="mdi mdi-pencil"></a></td>
                           </tr>
 
                         </tbody>

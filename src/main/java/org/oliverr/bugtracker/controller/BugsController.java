@@ -60,7 +60,7 @@ public class BugsController {
     }
 
     @RequestMapping("/bug/{bugid}")
-    public String product(Model model, @PathVariable(value="bugid") String bugid, Principal principal) {
+    public String bug(Model model, @PathVariable(value="bugid") String bugid, Principal principal) {
         User user = ur.findByEmail(principal.getName());
         try {
             if(br.isItTheirBug(Long.parseLong(bugid), user.getId())) {
@@ -80,6 +80,38 @@ public class BugsController {
             return "error";
         }
         return "error";
+    }
+
+    @RequestMapping("/bug/{bugid}/edit")
+    public String editBugForm(Model model, @PathVariable(value="bugid") String bugid, Principal principal) {
+        User user = ur.findByEmail(principal.getName());
+        try {
+            if(br.isItTheirBug(Long.parseLong(bugid), user.getId())) {
+                Bug bug = br.getBugById(Long.parseLong(bugid));
+
+                if(bug != null) {
+                    model.addAttribute("bug", bug);
+
+                    model.addAttribute("user", user);
+                    model.addAttribute("isAdmin", ur.isAdmin(user));
+                    model.addAttribute("pageTitle", "Bug #"+bugid+" | Bug Tracker");
+                    model.addAttribute("projects", pr.getProjects(user.getId()));
+                    return "editBug";
+                }
+                return "error";
+            }
+        } catch (Exception e) {
+            return "error";
+        }
+        return "error";
+    }
+
+    @RequestMapping(value = "/bugs/edit", method = RequestMethod.POST)
+    public String editBug(@ModelAttribute Bug bug, Principal principal) {
+        User user = ur.findByEmail(principal.getName());
+        br.updateBug(bug.getBugId(), pr.getProjectIdByName(bug.getProjectName()), bug.getTitle(), bug.getDescription(), bug.getStatus());
+
+        return "redirect:/bug/"+bug.getBugId();
     }
 
 }
