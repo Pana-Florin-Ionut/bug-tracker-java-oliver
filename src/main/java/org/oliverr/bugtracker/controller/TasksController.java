@@ -80,4 +80,36 @@ public class TasksController {
         return "error";
     }
 
+    @RequestMapping("/task/{taskid}/edit")
+    public String editTaskForm(Model model, @PathVariable(value="taskid") String taskid, Principal principal) {
+        User user = ur.findByEmail(principal.getName());
+        try {
+            if(tr.isItTheirTask(Long.parseLong(taskid), user.getId())) {
+                Task task = tr.getTaskById(Long.parseLong(taskid));
+
+                if(task != null) {
+                    model.addAttribute("task", task);
+
+                    model.addAttribute("user", user);
+                    model.addAttribute("isAdmin", ur.isAdmin(user));
+                    model.addAttribute("pageTitle", "Task #"+taskid+" | Bug Tracker");
+                    model.addAttribute("projects", pr.getProjects(user.getId()));
+                    return "editTask";
+                }
+                return "error";
+            }
+        } catch (Exception e) {
+            return "error";
+        }
+        return "error";
+    }
+
+    @RequestMapping(value = "/tasks/edit", method = RequestMethod.POST)
+    public String editBug(@ModelAttribute Task task, Principal principal) {
+        User user = ur.findByEmail(principal.getName());
+        tr.updateTask(task.getTaskId(), pr.getProjectIdByName(task.getProjectName()), task.getTitle(), task.getDescription(), task.getStatus());
+
+        return "redirect:/task/"+task.getTaskId();
+    }
+
 }

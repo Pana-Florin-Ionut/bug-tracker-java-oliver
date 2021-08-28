@@ -131,4 +131,18 @@ public class TaskRepository {
         return false;
     }
 
+    public void updateTask(long taskId, long projectId, String title, String description, String status) {
+        try {
+            PreparedStatement ps = db.conn.prepareStatement("UPDATE tasks SET project_id = ?, title = ?, description = ?, status = ? WHERE task_id = ?;");
+            ps.setLong(1, projectId);
+            ps.setString(2, title);
+            ps.setString(3, description);
+            ps.setString(4, status);
+            ps.setLong(5, taskId);
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

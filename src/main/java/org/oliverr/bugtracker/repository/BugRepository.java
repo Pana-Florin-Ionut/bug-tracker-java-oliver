@@ -145,19 +145,4 @@ public class BugRepository {
         }
     }
 
-    public int findBugIdByName(String bugTitle, Long userId, String description) {
-        int res = 0;
-
-        ResultSet rs = db.executeQuery("SELECT bug_id FROM bugs WHERE title = '"+bugTitle+"' AND description = '"+description+"' AND user_id = "+userId+";");
-        try {
-            while(rs.next()) {
-                res = rs.getInt(1);
-            }
-            rs.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return res;
-    }
-
 }

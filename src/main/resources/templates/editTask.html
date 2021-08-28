@@ -17,22 +17,22 @@
               <div class="col-12 col-lg-12 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Add Bug</h4>
-                    <form class="forms-sample" th:action="@{/bugs/edit/}" th:object="${bug}" method="post">
+                    <h4 class="card-title">Edit Task</h4>
+                    <form class="forms-sample" th:action="@{/tasks/edit/}" th:object="${task}" method="post">
 
-                      <input type ="hidden" th:field="*{bugId}" th:value="${bug.bugId}">
+                      <input type ="hidden" th:field="*{taskId}" th:value="${task.taskId}">
 
                       <div class="form-group">
-                        <label for="title">Edit Title</label>
-                        <input type="text" th:field="*{title}" th:value="${bug.title}" class="form-control" id="title" placeholder="Bug Title" required>
+                        <label for="title">Bug Title</label>
+                        <input type="text" th:field="*{title}" th:value="${task.title}" class="form-control" id="title" placeholder="Task Title" required>
                       </div>
 
                       <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea class="form-control" th:field="*{description}" th:value="${bug.description}" id="description" rows="4"></textarea>
+                        <textarea class="form-control" th:field="*{description}" th:value="${task.description}" id="description" rows="4"></textarea>
                       </div>
 
-                      <div th:if="${bug.status} == 'pending'" class="form-group">
+                      <div th:if="${task.status} == 'pending'" class="form-group">
                         <label for="pending">Status</label>
                         <select class="form-control" id="pending" th:field="*{status}" required>
                           <option value="pending" selected>Pending</option>
@@ -40,7 +40,7 @@
                           <option value="completed">Completed</option>
                         </select>
                       </div>
-                      <div th:if="${bug.status} == 'in progress'" class="form-group">
+                      <div th:if="${task.status} == 'in progress'" class="form-group">
                         <label for="progress">Status</label>
                         <select class="form-control" id="progress" th:field="*{status}" required>
                           <option value="in progress" selected>In Progress</option>
@@ -48,7 +48,7 @@
                           <option value="completed">Completed</option>
                         </select>
                       </div>
-                      <div th:if="${bug.status} == 'completed'" class="form-group">
+                      <div th:if="${task.status} == 'completed'" class="form-group">
                         <label for="completed">Status</label>
                         <select class="form-control" id="completed" th:field="*{status}" required>
                           <option value="completed" selected>Completed</option>
