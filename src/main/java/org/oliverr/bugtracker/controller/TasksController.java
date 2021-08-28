@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -54,6 +55,29 @@ public class TasksController {
         tr.addTask(pr.getProjectIdByName(task.getProjectName()), sender.getId(), task.getTitle(), task.getDescription(), task.getStatus());
 
         return "redirect:/tasks";
+    }
+
+    @RequestMapping("/task/{taskid}")
+    public String product(Model model, @PathVariable(value="taskid") String taskid, Principal principal) {
+        User user = ur.findByEmail(principal.getName());
+        try {
+            if(tr.isItTheirTask(Long.parseLong(taskid), user.getId())) {
+                Task task = tr.getTaskById(Long.parseLong(taskid));
+
+                if(task != null) {
+                    model.addAttribute("foundTask", task);
+
+                    model.addAttribute("user", user);
+                    model.addAttribute("isAdmin", ur.isAdmin(user));
+                    model.addAttribute("pageTitle", "Task #"+taskid+" | Bug Tracker");
+                    return "task";
+                }
+                return "error";
+            }
+        } catch (Exception e) {
+            return "error";
+        }
+        return "error";
     }
 
 }

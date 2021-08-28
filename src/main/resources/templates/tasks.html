@@ -32,7 +32,7 @@
                         <tbody th:each="task : ${allTask}">
 
                           <tr>
-                            <td><a href="#" style="color: #6c7293" th:text="${task.title}">Test 1</a></td>
+                            <td><a th:href="@{|/task/${task.taskId}|}" href="#" style="color: #6c7293" th:text="${task.title}">Test 1</a></td>
                             <td th:text="${task.projectName}">Project 4</td>
                             <td>12 May 2021</td>
                             <td th:if="${task.status} == pending"><label class="badge badge-danger">Pending</label></td>

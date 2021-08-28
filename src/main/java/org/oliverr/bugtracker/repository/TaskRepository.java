@@ -85,4 +85,50 @@ public class TaskRepository {
         }
     }
 
+    public Task getTaskById(long taskId) {
+        Task task = null;
+        ResultSet rs = db.executeQuery("SELECT * FROM tasks WHERE task_id = "+taskId+";");
+        try {
+            while(rs.next()) {
+                task = new Task();
+                task.setTaskId(rs.getLong(1));
+                task.setProjectId(rs.getLong(2));
+                task.setUserId(rs.getLong(3));
+                task.setTitle(rs.getString(4));
+                task.setDescription(rs.getString(5));
+                task.setStatus(rs.getString(6));
+            }
+            rs.close();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+
+        if(task != null) {
+            ResultSet rs2 = db.executeQuery("SELECT title FROM projects WHERE project_id = "+task.getProjectId()+";");
+            try {
+                while (rs2.next()) {
+                    task.setProjectName(rs2.getString(1));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return task;
+    }
+
+    public boolean isItTheirTask(long taskId, long userId) {
+        ResultSet rs = db.executeQuery("SELECT * FROM tasks WHERE task_id = "+taskId+" AND user_id = "+userId+";");
+        try {
+            if(rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return false;
+    }
+
 }
