@@ -85,4 +85,50 @@ public class BugRepository {
         }
     }
 
+    public Bug getBugById(long bugId) {
+        Bug bug = null;
+        ResultSet rs = db.executeQuery("SELECT * FROM bugs WHERE bug_id = "+bugId+";");
+        try {
+            while(rs.next()) {
+                bug = new Bug();
+                bug.setBugId(rs.getLong(1));
+                bug.setProjectId(rs.getLong(2));
+                bug.setUserId(rs.getLong(3));
+                bug.setTitle(rs.getString(4));
+                bug.setDescription(rs.getString(5));
+                bug.setStatus(rs.getString(6));
+            }
+            rs.close();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+
+        if(bug != null) {
+            ResultSet rs2 = db.executeQuery("SELECT title FROM projects WHERE project_id = "+bug.getProjectId()+";");
+            try {
+                while (rs2.next()) {
+                    bug.setProjectName(rs2.getString(1));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return bug;
+    }
+
+    public boolean isItTheirBug(long bugId, long userId) {
+        ResultSet rs = db.executeQuery("SELECT * FROM bugs WHERE bug_id = "+bugId+" AND user_id = "+userId+";");
+        try {
+            if(rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return false;
+    }
+
 }

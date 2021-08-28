@@ -32,7 +32,7 @@
                         <tbody th:each="bug : ${allBug}">
 
                           <tr>
-                            <td><a href="#" style="color: #6c7293" th:text="${bug.title}">Test 1</a></td>
+                            <td><a th:href="@{|/bug/${bug.bugId}|}" href="#" style="color: #6c7293" th:text="${bug.title}">Test 1</a></td>
                             <td th:text="${bug.projectName}">Project 4</td>
                             <td>12 May 2021</td>
                             <td th:if="${bug.status} == pending"><label class="badge badge-danger">Pending</label></td>

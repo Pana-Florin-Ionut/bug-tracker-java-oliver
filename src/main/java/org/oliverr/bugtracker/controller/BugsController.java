@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -56,6 +57,29 @@ public class BugsController {
         br.addBug(pr.getProjectIdByName(bug.getProjectName()), sender.getId(), bug.getTitle(), bug.getDescription(), bug.getStatus());
 
         return "redirect:/bugs";
+    }
+
+    @RequestMapping("/bug/{bugid}")
+    public String product(Model model, @PathVariable(value="bugid") String bugid, Principal principal) {
+        User user = ur.findByEmail(principal.getName());
+        try {
+            if(br.isItTheirBug(Long.parseLong(bugid), user.getId())) {
+                Bug bug = br.getBugById(Long.parseLong(bugid));
+
+                if(bug != null) {
+                    model.addAttribute("foundBug", bug);
+
+                    model.addAttribute("user", user);
+                    model.addAttribute("isAdmin", ur.isAdmin(user));
+                    model.addAttribute("pageTitle", "Bug #"+bugid+" | Bug Tracker");
+                    return "bug";
+                }
+                return "error";
+            }
+        } catch (Exception e) {
+            return "error";
+        }
+        return "error";
     }
 
 }
