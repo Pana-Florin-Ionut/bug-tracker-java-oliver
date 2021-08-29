@@ -31,7 +31,7 @@
                         <tbody th:each="project : ${projects}">
 
                           <tr>
-                            <td><a th:text="${project.title}" href="#" class="list-link">Test Project</a></td>
+                            <td><a th:text="${project.title}" th:href="@{|/project/${project.projectId}|}" href="#" class="list-link">Test Project</a></td>
 
                             <td th:if="${project.contributors} <= 1"> <span th:text="${project.contributors}">0</span> contributor</td>
                             <td th:if="${project.contributors} > 1"> <span th:text="${project.contributors}">0</span> contributors</td>

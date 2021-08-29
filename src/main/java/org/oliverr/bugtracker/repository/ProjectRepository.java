@@ -105,4 +105,40 @@ public class ProjectRepository {
         }
     }
 
+    public Project getProject(long id) {
+        Project project = null;
+        ResultSet rs = db.executeQuery("SELECT * FROM projects WHERE project_id = "+id+";");
+        try {
+            while(rs.next()) {
+                project = new Project();
+                project.setProjectId(rs.getLong(1));
+                project.setUserId(rs.getLong(2));
+                project.setTitle(rs.getString(3));
+                project.setDescription(rs.getString(4));
+                project.setReadme(rs.getString(5));
+                project.setTaskCount(tr.getTaskCount(rs.getLong(1)));
+                project.setBugCount(br.getBugCount(rs.getLong(1)));
+                project.setContributors(cr.contributorsCount(rs.getLong(1)));
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+
+        return project;
+    }
+
+    public boolean isItTheirProject(long projectId, long userId) {
+        ResultSet rs = db.executeQuery("SELECT * FROM projects WHERE project_id = "+projectId+" AND user_id = "+userId+";");
+        try {
+            if(rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return false;
+    }
+
 }

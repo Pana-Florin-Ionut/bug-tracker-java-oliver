@@ -1,5 +1,6 @@
 package org.oliverr.bugtracker.controller;
 
+import org.oliverr.bugtracker.entity.Bug;
 import org.oliverr.bugtracker.entity.Project;
 import org.oliverr.bugtracker.entity.User;
 import org.oliverr.bugtracker.repository.ProjectRepository;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -43,6 +45,29 @@ public class ProjectsController {
         pr.addToProjects(sender.getId(), project.getTitle(), project.getDescription(), project.getReadme());
 
         return "redirect:/projects";
+    }
+
+    @RequestMapping("/project/{projectid}")
+    public String project(Model model, @PathVariable(value="projectid") String projectid, Principal principal) {
+        User user = ur.findByEmail(principal.getName());
+        try {
+            if(pr.isItTheirProject(Long.parseLong(projectid), user.getId())) {
+                Project project = pr.getProject(Long.parseLong(projectid));
+
+                if(project != null) {
+                    model.addAttribute("foundProject", project);
+
+                    model.addAttribute("user", user);
+                    model.addAttribute("isAdmin", ur.isAdmin(user));
+                    model.addAttribute("pageTitle", "Project #"+projectid+" | Bug Tracker");
+                    return "project";
+                }
+                return "error";
+            }
+        } catch (Exception e) {
+            return "error";
+        }
+        return "error";
     }
 
 }
