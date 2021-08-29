@@ -141,4 +141,17 @@ public class ProjectRepository {
         return false;
     }
 
+    public void updateProject(String title, String description, String readme, long projectId) {
+        try {
+            PreparedStatement ps = db.conn.prepareStatement("UPDATE projects SET title = ?, description = ?, readme = ? WHERE project_id = ?;");
+            ps.setString(1, title);
+            ps.setString(2, description);
+            ps.setString(3, readme);
+            ps.setLong(4, projectId);
+            ps.execute();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

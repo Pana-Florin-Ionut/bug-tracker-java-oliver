@@ -22,10 +22,11 @@
                       <table class="table">
                         <thead>
                           <tr>
-                            <th>Project Name</th>
-                            <th>Contributors</th>
-                            <th>Bugs</th>
-                            <th>Tasks</th>
+                            <th> Project Name</th>
+                            <th> Contributors</th>
+                            <th> Bugs</th>
+                            <th> Tasks</th>
+                            <th> Edit</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -41,6 +42,8 @@
 
                             <td th:if="${foundProject.taskCount} <= 1"> <span th:text="${foundProject.taskCount}">0</span> task</td>
                             <td th:if="${foundProject.taskCount} > 1"> <span th:text="${foundProject.taskCount}">0</span> tasks</td>
+
+                            <td><a th:href="@{|/project/${foundProject.projectId}/edit|}" href="#" style="color: #6c7293; font-size: 1.2rem;" class="mdi mdi-pencil"></a></td>
                           </tr>
 
                         </tbody>

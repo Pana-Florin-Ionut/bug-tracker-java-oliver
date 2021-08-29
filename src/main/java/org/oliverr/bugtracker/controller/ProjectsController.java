@@ -70,4 +70,36 @@ public class ProjectsController {
         return "error";
     }
 
+    @RequestMapping("/project/{projectid}/edit")
+    public String editProjectForm(Model model, @PathVariable(value="projectid") String projectid, Principal principal) {
+        User user = ur.findByEmail(principal.getName());
+        try {
+            if(pr.isItTheirProject(Long.parseLong(projectid), user.getId())) {
+                Project project = pr.getProject(Long.parseLong(projectid));
+
+                if(project != null) {
+                    model.addAttribute("project", project);
+
+                    model.addAttribute("user", user);
+                    model.addAttribute("isAdmin", ur.isAdmin(user));
+                    model.addAttribute("pageTitle", "Project #"+projectid+" | Bug Tracker");
+                    model.addAttribute("projects", pr.getAllProjects(user.getId()));
+                    return "editProject";
+                }
+                return "error";
+            }
+        } catch (Exception e) {
+            return "error";
+        }
+        return "error";
+    }
+
+    @RequestMapping(value = "/projects/edit", method = RequestMethod.POST)
+    public String editProject(@ModelAttribute Project project, Principal principal) {
+        User user = ur.findByEmail(principal.getName());
+        pr.updateProject(project.getTitle(), project.getDescription(), project.getReadme(), project.getProjectId());
+
+        return "redirect:/project/"+project.getProjectId();
+    }
+
 }
