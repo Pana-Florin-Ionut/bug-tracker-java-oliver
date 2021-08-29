@@ -67,4 +67,28 @@ public class ProjectRepository {
         return projects;
     }
 
+    public ArrayList<Project> getAllProjects(long userId) {
+        ArrayList<Project> projects = new ArrayList<>();
+        ResultSet rs = db.executeQuery("SELECT * FROM projects WHERE user_id = "+userId+" ORDER BY project_id DESC;");
+        try {
+            while(rs.next()) {
+                Project p = new Project();
+                p.setProjectId(rs.getLong(1));
+                p.setUserId(rs.getLong(2));
+                p.setTitle(rs.getString(3));
+                p.setDescription(rs.getString(4));
+                p.setReadme(rs.getString(5));
+                p.setTaskCount(tr.getTaskCount(rs.getLong(1)));
+                p.setBugCount(br.getBugCount(rs.getLong(1)));
+                p.setContributors(cr.contributorsCount(rs.getLong(1)));
+
+                projects.add(p);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return projects;
+    }
+
 }

@@ -21024,5 +21024,9 @@ div.tagsinput {
   width: 100%;
   -webkit-flex-grow: 1;
   flex-grow: 1; }
+  
+.list-link {
+	color: #58A4FC !important;
+}
 
 /*# sourceMappingURL=maps/style.css.map */
