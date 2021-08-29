@@ -1,12 +1,15 @@
 package org.oliverr.bugtracker.controller;
 
+import org.oliverr.bugtracker.entity.Project;
 import org.oliverr.bugtracker.entity.User;
 import org.oliverr.bugtracker.repository.ProjectRepository;
 import org.oliverr.bugtracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.security.Principal;
 
@@ -29,8 +32,17 @@ public class ProjectsController {
         model.addAttribute("pageTitle", "Projects | Bug Tracker");
 
         model.addAttribute("projects", pr.getAllProjects(loggedUser.getId()));
+        model.addAttribute("project", new Project());
 
         return "projects";
+    }
+
+    @RequestMapping(value = "/projects/add", method = RequestMethod.POST)
+    public String addProject(@ModelAttribute Project project, Principal principal) {
+        User sender = ur.findByEmail(principal.getName());
+        pr.addToProjects(sender.getId(), project.getTitle(), project.getDescription(), project.getReadme());
+
+        return "redirect:/projects";
     }
 
 }

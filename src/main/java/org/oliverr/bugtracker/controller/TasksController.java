@@ -41,7 +41,7 @@ public class TasksController {
         model.addAttribute("pageTitle", "Tasks | Bug Tracker");
 
         model.addAttribute("allTask", tr.getAllTask(loggedUser.getId()));
-        model.addAttribute("projects", pr.getProjects(loggedUser.getId()));
+        model.addAttribute("projects", pr.getAllProjects(loggedUser.getId()));
 
         model.addAttribute("task", new Task());
 

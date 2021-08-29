@@ -43,7 +43,7 @@ public class BugsController {
         model.addAttribute("pageTitle", "Bugs | Bug Tracker");
 
         model.addAttribute("allBug", br.getAllBugs(loggedUser.getId()));
-        model.addAttribute("projects", pr.getProjects(loggedUser.getId()));
+        model.addAttribute("projects", pr.getAllProjects(loggedUser.getId()));
 
         model.addAttribute("bug", new Bug());
 

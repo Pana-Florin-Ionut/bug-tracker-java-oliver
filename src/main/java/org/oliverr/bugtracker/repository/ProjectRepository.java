@@ -5,6 +5,7 @@ import org.oliverr.bugtracker.entity.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -89,6 +90,19 @@ public class ProjectRepository {
         }
 
         return projects;
+    }
+
+    public void addToProjects(long userId, String title, String description, String readme) {
+        try {
+            PreparedStatement ps = db.conn.prepareStatement("INSERT INTO projects(user_id, title, description, readme) VALUES (?, ?, ?, ?);");
+            ps.setLong(1, userId);
+            ps.setString(2, title);
+            ps.setString(3, description);
+            ps.setString(4, readme);
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }
