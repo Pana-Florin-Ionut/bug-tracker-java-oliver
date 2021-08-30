@@ -3,6 +3,7 @@ package org.oliverr.bugtracker.controller;
 import org.oliverr.bugtracker.entity.Bug;
 import org.oliverr.bugtracker.entity.Project;
 import org.oliverr.bugtracker.entity.User;
+import org.oliverr.bugtracker.repository.NotificationRepository;
 import org.oliverr.bugtracker.repository.ProjectRepository;
 import org.oliverr.bugtracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +27,17 @@ public class ProjectsController {
     @Autowired
     public void setPr(ProjectRepository pr) { this.pr = pr; }
 
+    private NotificationRepository nr;
+    @Autowired
+    public void setNr(NotificationRepository nr) { this.nr = nr; }
+
     @RequestMapping("/projects")
     public String projects(Model model, Principal principal) {
         User loggedUser = ur.findByEmail(principal.getName());
         model.addAttribute("user", loggedUser);
         model.addAttribute("isAdmin", ur.isAdmin(loggedUser));
         model.addAttribute("pageTitle", "Projects | Bug Tracker");
+        model.addAttribute("isUnread", nr.isThereUnread(loggedUser.getId()));
 
         model.addAttribute("projects", pr.getAllProjects(loggedUser.getId()));
         model.addAttribute("project", new Project());
@@ -60,6 +66,7 @@ public class ProjectsController {
                     model.addAttribute("user", user);
                     model.addAttribute("isAdmin", ur.isAdmin(user));
                     model.addAttribute("pageTitle", "Project #"+projectid+" | Bug Tracker");
+                    model.addAttribute("isUnread", nr.isThereUnread(user.getId()));
                     return "project";
                 }
                 return "error";
@@ -84,6 +91,7 @@ public class ProjectsController {
                     model.addAttribute("isAdmin", ur.isAdmin(user));
                     model.addAttribute("pageTitle", "Project #"+projectid+" | Bug Tracker");
                     model.addAttribute("projects", pr.getAllProjects(user.getId()));
+                    model.addAttribute("isUnread", nr.isThereUnread(user.getId()));
                     return "editProject";
                 }
                 return "error";

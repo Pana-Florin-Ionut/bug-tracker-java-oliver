@@ -33,12 +33,17 @@ public class TasksController {
     @Autowired
     public void setPr(ProjectRepository pr) { this.pr = pr; }
 
+    private NotificationRepository nr;
+    @Autowired
+    public void setNr(NotificationRepository nr) { this.nr = nr; }
+
     @RequestMapping("/tasks")
     public String tasks(Model model, Principal principal) {
         User loggedUser = ur.findByEmail(principal.getName());
         model.addAttribute("user", loggedUser);
         model.addAttribute("isAdmin", ur.isAdmin(loggedUser));
         model.addAttribute("pageTitle", "Tasks | Bug Tracker");
+        model.addAttribute("isUnread", nr.isThereUnread(loggedUser.getId()));
 
         model.addAttribute("allTask", tr.getAllTask(loggedUser.getId()));
         model.addAttribute("projects", pr.getAllProjects(loggedUser.getId()));
@@ -70,6 +75,7 @@ public class TasksController {
                     model.addAttribute("user", user);
                     model.addAttribute("isAdmin", ur.isAdmin(user));
                     model.addAttribute("pageTitle", "Task #"+taskid+" | Bug Tracker");
+                    model.addAttribute("isUnread", nr.isThereUnread(user.getId()));
                     return "task";
                 }
                 return "error";
@@ -94,6 +100,7 @@ public class TasksController {
                     model.addAttribute("isAdmin", ur.isAdmin(user));
                     model.addAttribute("pageTitle", "Task #"+taskid+" | Bug Tracker");
                     model.addAttribute("projects", pr.getProjects(user.getId()));
+                    model.addAttribute("isUnread", nr.isThereUnread(user.getId()));
                     return "editTask";
                 }
                 return "error";

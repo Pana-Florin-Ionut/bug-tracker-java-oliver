@@ -42,11 +42,11 @@ public class DashboardController {
         model.addAttribute("user", loggedUser);
         model.addAttribute("isAdmin", ur.isAdmin(loggedUser));
         model.addAttribute("pageTitle", "Dashboard | Bug Tracker");
+        model.addAttribute("isUnread", nr.isThereUnread(loggedUser.getId()));
 
         model.addAttribute("projectsCount", projectsCount(loggedUser.getId()));
         model.addAttribute("tasksCount", tasksCount(loggedUser.getId()));
         model.addAttribute("bugsCount", bugsCount(loggedUser.getId()));
-        model.addAttribute("isUnread", nr.isThereUnread(loggedUser.getId()));
         model.addAttribute("todos", todor.getTodos(loggedUser.getId()));
 
         model.addAttribute("projects", pr.getProjects(loggedUser.getId()));

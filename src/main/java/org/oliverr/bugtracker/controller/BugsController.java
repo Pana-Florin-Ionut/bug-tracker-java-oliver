@@ -4,6 +4,7 @@ import org.oliverr.bugtracker.DB;
 import org.oliverr.bugtracker.entity.Bug;
 import org.oliverr.bugtracker.entity.User;
 import org.oliverr.bugtracker.repository.BugRepository;
+import org.oliverr.bugtracker.repository.NotificationRepository;
 import org.oliverr.bugtracker.repository.ProjectRepository;
 import org.oliverr.bugtracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,12 +36,17 @@ public class BugsController {
     @Autowired
     public void setPr(ProjectRepository pr) { this.pr = pr; }
 
+    private NotificationRepository nr;
+    @Autowired
+    public void setNr(NotificationRepository nr) { this.nr = nr; }
+
     @RequestMapping("/bugs")
     public String bugs(Model model, Principal principal) {
         User loggedUser = ur.findByEmail(principal.getName());
         model.addAttribute("user", loggedUser);
         model.addAttribute("isAdmin", ur.isAdmin(loggedUser));
         model.addAttribute("pageTitle", "Bugs | Bug Tracker");
+        model.addAttribute("isUnread", nr.isThereUnread(loggedUser.getId()));
 
         model.addAttribute("allBug", br.getAllBugs(loggedUser.getId()));
         model.addAttribute("projects", pr.getAllProjects(loggedUser.getId()));
@@ -72,6 +78,7 @@ public class BugsController {
                     model.addAttribute("user", user);
                     model.addAttribute("isAdmin", ur.isAdmin(user));
                     model.addAttribute("pageTitle", "Bug #"+bugid+" | Bug Tracker");
+                    model.addAttribute("isUnread", nr.isThereUnread(user.getId()));
                     return "bug";
                 }
                 return "error";
@@ -96,6 +103,7 @@ public class BugsController {
                     model.addAttribute("isAdmin", ur.isAdmin(user));
                     model.addAttribute("pageTitle", "Bug #"+bugid+" | Bug Tracker");
                     model.addAttribute("projects", pr.getProjects(user.getId()));
+                    model.addAttribute("isUnread", nr.isThereUnread(user.getId()));
                     return "editBug";
                 }
                 return "error";

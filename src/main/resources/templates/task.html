@@ -32,8 +32,8 @@
                         <tbody>
 
                           <tr>
-                            <td><a href="#" style="color: #6c7293" th:text="${foundTask.title}">Test 1</a></td>
-                            <td th:text="${foundTask.projectName}">Project 4</td>
+                            <td th:text="${foundTask.title}">Test 1</td>
+                            <td><a th:href="@{|/project/${foundTask.projectId}|}" href="#" style="color: #6c7293" th:text="${foundTask.projectName}">Project</a></td>
                             <td>12 May 2021</td>
                             <td th:if="${foundTask.status} == pending"><label class="badge badge-danger">Pending</label></td>
                             <td th:if="${foundTask.status} == 'in progress'"><label class="badge badge-warning">In Progress</label></td>
