@@ -4,9 +4,11 @@ import org.oliverr.bugtracker.DB;
 import org.oliverr.bugtracker.entity.Role;
 import org.oliverr.bugtracker.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -66,6 +68,20 @@ public class UserRepository {
             if(r.getRole().equalsIgnoreCase("admin")) return true;
         }
         return false;
+    }
+
+    public void updatePassword(long userId, String password) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String encodedPw = encoder.encode(password);
+
+        try {
+            PreparedStatement ps = db.conn.prepareStatement("UPDATE users SET password = ? WHERE user_id = ?;");
+            ps.setString(1, encodedPw);
+            ps.setLong(2, userId);
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

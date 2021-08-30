@@ -1,13 +1,17 @@
 package org.oliverr.bugtracker.controller;
 
 import org.oliverr.bugtracker.DB;
+import org.oliverr.bugtracker.entity.ChangePassword;
 import org.oliverr.bugtracker.entity.User;
 import org.oliverr.bugtracker.repository.NotificationRepository;
 import org.oliverr.bugtracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.security.Principal;
 import java.sql.ResultSet;
@@ -39,7 +43,27 @@ public class ProfileController {
         model.addAttribute("completedBugs", completedBugsCount(loggedUser.getId()));
         model.addAttribute("completedTasks", completedTasksCount(loggedUser.getId()));
 
+        model.addAttribute("changePassword", new ChangePassword());
+
         return "profile";
+    }
+
+    @RequestMapping(value = "/password/change", method = RequestMethod.POST)
+    public String changePw(@ModelAttribute ChangePassword cp, Principal principal) {
+        User user = ur.findByEmail(principal.getName());
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        if(!encoder.matches(cp.getOldPassword(), user.getPassword())) {
+            return "redirect:/profile?wrongpassword";
+        }
+
+        if(!cp.getNewPassword().equals(cp.getNewPasswordAgain())) {
+            return "redirect:/profile?notmatch";
+        }
+
+        ur.updatePassword(user.getId(), cp.getNewPassword());
+        return "redirect:/profile?success";
     }
 
     private int completedBugsCount(long userId) {
