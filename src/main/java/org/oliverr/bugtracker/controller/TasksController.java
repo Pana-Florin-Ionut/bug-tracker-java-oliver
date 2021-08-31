@@ -1,6 +1,7 @@
 package org.oliverr.bugtracker.controller;
 
 import org.oliverr.bugtracker.DB;
+import org.oliverr.bugtracker.entity.Bug;
 import org.oliverr.bugtracker.entity.Task;
 import org.oliverr.bugtracker.entity.User;
 import org.oliverr.bugtracker.repository.*;
@@ -51,6 +52,30 @@ public class TasksController {
         model.addAttribute("task", new Task());
 
         return "tasks";
+    }
+
+    @RequestMapping("/tasks/project/{projectid}")
+    public String projectTasks(Model model, Principal principal, @PathVariable(value="projectid") String projectid) {
+        User loggedUser = ur.findByEmail(principal.getName());
+        try {
+            if(pr.isItTheirProject(Long.parseLong(projectid), loggedUser.getId())) {
+                model.addAttribute("user", loggedUser);
+                model.addAttribute("isAdmin", ur.isAdmin(loggedUser));
+                model.addAttribute("pageTitle", "Tasks | Bug Tracker");
+                model.addAttribute("isUnread", nr.isThereUnread(loggedUser.getId()));
+
+                model.addAttribute("allTask", tr.getProjectTasks(Long.parseLong(projectid)));
+                model.addAttribute("projects", pr.getAllProjects(loggedUser.getId()));
+
+                model.addAttribute("task", new Task());
+
+                return "tasks";
+            } else {
+                return "error";
+            }
+        } catch(Exception e) {
+            return "error";
+        }
     }
 
     @RequestMapping(value = "/tasks/add", method = RequestMethod.POST)

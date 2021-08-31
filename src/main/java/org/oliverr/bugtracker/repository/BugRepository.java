@@ -71,6 +71,43 @@ public class BugRepository {
         return bugs;
     }
 
+    public ArrayList<Bug> getProjectBugs(long projectId) {
+        ArrayList<Bug> bugs = new ArrayList<>();
+        ResultSet rs = db.executeQuery("SELECT * FROM bugs WHERE project_id = "+projectId+" ORDER BY bug_id DESC;");
+
+        try {
+            while(rs.next()) {
+                Bug bug = new Bug();
+                bug.setBugId(rs.getLong(1));
+                bug.setProjectId(rs.getLong(2));
+                bug.setUserId(rs.getLong(3));
+                bug.setTitle(rs.getString(4));
+                bug.setDescription(rs.getString(5));
+                bug.setStatus(rs.getString(6));
+
+                bugs.add(bug);
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if(!bugs.isEmpty()) {
+            for(Bug bug : bugs) {
+                ResultSet rs2 = db.executeQuery("SELECT title FROM projects WHERE project_id = "+bug.getProjectId()+";");
+                try {
+                    while (rs2.next()) {
+                        bug.setProjectName(rs2.getString(1));
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return bugs;
+    }
+
     public void addBug(long projectId, long userId, String title, String description, String status) {
         try {
             PreparedStatement ps = db.conn.prepareStatement("INSERT INTO bugs(project_id, user_id, title, description, status) VALUES (?, ?, ?, ?, ?);");

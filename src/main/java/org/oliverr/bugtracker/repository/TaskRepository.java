@@ -71,6 +71,43 @@ public class TaskRepository {
         return tasks;
     }
 
+    public ArrayList<Task> getProjectTasks(long projectId) {
+        ArrayList<Task> tasks = new ArrayList<>();
+        ResultSet rs = db.executeQuery("SELECT * FROM tasks WHERE project_id = "+projectId+" ORDER BY task_id DESC;");
+
+        try {
+            while(rs.next()) {
+                Task task = new Task();
+                task.setTaskId(rs.getLong(1));
+                task.setProjectId(rs.getLong(2));
+                task.setUserId(rs.getLong(3));
+                task.setTitle(rs.getString(4));
+                task.setDescription(rs.getString(5));
+                task.setStatus(rs.getString(6));
+
+                tasks.add(task);
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if(!tasks.isEmpty()) {
+            for(Task task : tasks) {
+                ResultSet rs2 = db.executeQuery("SELECT title FROM projects WHERE project_id = "+task.getProjectId()+";");
+                try {
+                    while (rs2.next()) {
+                        task.setProjectName(rs2.getString(1));
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return tasks;
+    }
+
     public void addTask(long projectId, long userId, String title, String description, String status) {
         try {
             PreparedStatement ps = db.conn.prepareStatement("INSERT INTO tasks(project_id, user_id, title, description, status) VALUES (?, ?, ?, ?, ?);");

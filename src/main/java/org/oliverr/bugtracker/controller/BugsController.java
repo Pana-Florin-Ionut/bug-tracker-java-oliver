@@ -56,6 +56,30 @@ public class BugsController {
         return "bugs";
     }
 
+    @RequestMapping("/bugs/project/{projectid}")
+    public String projectBug(Model model, Principal principal, @PathVariable(value="projectid") String projectid) {
+        User loggedUser = ur.findByEmail(principal.getName());
+        try {
+            if(pr.isItTheirProject(Long.parseLong(projectid), loggedUser.getId())) {
+                model.addAttribute("user", loggedUser);
+                model.addAttribute("isAdmin", ur.isAdmin(loggedUser));
+                model.addAttribute("pageTitle", "Bugs | Bug Tracker");
+                model.addAttribute("isUnread", nr.isThereUnread(loggedUser.getId()));
+
+                model.addAttribute("allBug", br.getProjectBugs(Long.parseLong(projectid)));
+
+                model.addAttribute("projects", pr.getAllProjects(loggedUser.getId()));
+                model.addAttribute("bug", new Bug());
+
+                return "bugs";
+            } else {
+                return "error";
+            }
+        } catch(Exception e) {
+            return "error";
+        }
+    }
+
     @RequestMapping(value = "/bugs/add", method = RequestMethod.POST)
     public String addBug(@ModelAttribute Bug bug, Principal principal) {
         User sender = ur.findByEmail(principal.getName());
