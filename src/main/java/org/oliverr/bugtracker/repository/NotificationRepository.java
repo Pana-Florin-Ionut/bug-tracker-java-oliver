@@ -60,4 +60,26 @@ public class NotificationRepository {
         return notifications;
     }
 
+    public ArrayList<Notification> getAllNotifications(long userId) {
+        ArrayList<Notification> notifications = new ArrayList<>();
+
+        ResultSet rs = db.executeQuery("SELECT * FROM notifications WHERE user_id = "+userId+" ORDER BY notification_id DESC;");
+        try {
+            while(rs.next()) {
+                Notification p = new Notification();
+                p.setNotificationId(rs.getLong(1));
+                p.setUserId(rs.getLong(2));
+                p.setMessage(rs.getString(3));
+                p.setDatetime(rs.getString(4));
+                p.setOpened(rs.getInt(5) == 1);
+
+                notifications.add(p);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return notifications;
+    }
+
 }

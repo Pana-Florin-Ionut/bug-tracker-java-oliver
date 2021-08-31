@@ -158,13 +158,12 @@
                     <div class="list-wrapper">
                       <ul class="d-flex flex-column-reverse text-white todo-list todo-list-custom">
 
-                        <span th:each="todo : ${todos}">
+                        <span th:each="oneTodo : ${todos}">
                           <li>
-                            <div class="form-check form-check-primary">
-                              <label th:if="${todo.status} == done" class="form-check-label">&nbsp;<input class="checkbox" type="checkbox" th:text="${todo.task}" checked></label>
-                              <label th:if="${todo.status} == pending" class="form-check-label">&nbsp;<input class="checkbox" type="checkbox" th:text="${todo.task}"></label>
+                            <div class="form-check form-check-success">
+                              <label th:if="${oneTodo.status} == done" class="form-check-label">&nbsp;<input class="checkbox" type="checkbox" th:text="${oneTodo.task}" checked></label>
+                              <label th:if="${oneTodo.status} == pending" class="form-check-label">&nbsp;<input class="checkbox" type="checkbox" th:text="${oneTodo.task}"></label>
                             </div>
-                            <i class="remove mdi mdi-close-box"></i>
                           </li>
                         </span>
 
