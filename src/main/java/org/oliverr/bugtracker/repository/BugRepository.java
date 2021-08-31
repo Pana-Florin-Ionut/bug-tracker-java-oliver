@@ -122,6 +122,36 @@ public class BugRepository {
         }
     }
 
+    public int bugsCount(long userId) {
+        ResultSet rs = db.executeQuery("SELECT COUNT(bug_id) FROM bugs WHERE user_id = "+userId+";");
+        int res = 0;
+        try {
+            while(rs.next()) {
+                res = rs.getInt(1);
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return res;
+    }
+
+    public int uncompletedBugsCount(long userId) {
+        ResultSet rs = db.executeQuery("SELECT COUNT(bug_id) FROM bugs WHERE user_id = "+userId+" AND (status = 'in progress' OR status = 'pending');");
+        int res = 0;
+        try {
+            while(rs.next()) {
+                res = rs.getInt(1);
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return res;
+    }
+
     public Bug getBugById(long bugId) {
         Bug bug = null;
         ResultSet rs = db.executeQuery("SELECT * FROM bugs WHERE bug_id = "+bugId+";");

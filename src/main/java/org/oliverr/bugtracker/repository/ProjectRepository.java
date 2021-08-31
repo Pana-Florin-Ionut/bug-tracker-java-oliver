@@ -105,6 +105,21 @@ public class ProjectRepository {
         }
     }
 
+    public int projectsCount(long userId) {
+        ResultSet rs = db.executeQuery("SELECT COUNT(project_id) FROM projects WHERE user_id = "+userId+";");
+        int res = 0;
+        try {
+            while(rs.next()) {
+                res = rs.getInt(1);
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return res;
+    }
+
     public Project getProject(long id) {
         Project project = null;
         ResultSet rs = db.executeQuery("SELECT * FROM projects WHERE project_id = "+id+";");

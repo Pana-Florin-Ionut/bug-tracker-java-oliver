@@ -122,6 +122,36 @@ public class TaskRepository {
         }
     }
 
+    public int tasksCount(long userId) {
+        ResultSet rs = db.executeQuery("SELECT COUNT(task_id) FROM tasks WHERE user_id = "+userId+";");
+        int res = 0;
+        try {
+            while(rs.next()) {
+                res = rs.getInt(1);
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return res;
+    }
+
+    public int uncompletedTaskCount(long userId) {
+        ResultSet rs = db.executeQuery("SELECT COUNT(task_id) FROM tasks WHERE user_id = "+userId+" AND (status = 'in progress' OR status = 'pending');");
+        int res = 0;
+        try {
+            while(rs.next()) {
+                res = rs.getInt(1);
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return res;
+    }
+
     public Task getTaskById(long taskId) {
         Task task = null;
         ResultSet rs = db.executeQuery("SELECT * FROM tasks WHERE task_id = "+taskId+";");

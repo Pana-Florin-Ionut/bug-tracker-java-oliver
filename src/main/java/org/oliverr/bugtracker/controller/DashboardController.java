@@ -36,6 +36,14 @@ public class DashboardController {
     @Autowired
     public void setTodor(ProjectRepository pr) { this.pr = pr; }
 
+    private TaskRepository tr;
+    @Autowired
+    public void setTr(TaskRepository tr) { this.tr = tr; }
+
+    private BugRepository br;
+    @Autowired
+    public void setBr(BugRepository br) { this.br = br; }
+
     @RequestMapping("/")
     public String dashboard(Model model, Principal principal) {
         User loggedUser = ur.findByEmail(principal.getName());
@@ -44,10 +52,13 @@ public class DashboardController {
         model.addAttribute("pageTitle", "Dashboard | Bug Tracker");
         model.addAttribute("isUnread", nr.isThereUnread(loggedUser.getId()));
 
-        model.addAttribute("projectsCount", projectsCount(loggedUser.getId()));
-        model.addAttribute("tasksCount", tasksCount(loggedUser.getId()));
-        model.addAttribute("bugsCount", bugsCount(loggedUser.getId()));
+        model.addAttribute("projectsCount", pr.projectsCount(loggedUser.getId()));
+        model.addAttribute("tasksCount", tr.tasksCount(loggedUser.getId()));
+        model.addAttribute("bugsCount", br.bugsCount(loggedUser.getId()));
         model.addAttribute("todos", todor.getTodos(loggedUser.getId()));
+
+        model.addAttribute("uncompletedBugs", br.uncompletedBugsCount(loggedUser.getId()));
+        model.addAttribute("uncompletedTasks", tr.uncompletedTaskCount(loggedUser.getId()));
 
         model.addAttribute("projects", pr.getProjects(loggedUser.getId()));
         model.addAttribute("unreadNotification", nr.getUnreadNotifications(loggedUser.getId()));
@@ -55,51 +66,6 @@ public class DashboardController {
         model.addAttribute("todo", new Todo());
 
         return "index";
-    }
-
-    private int projectsCount(long userId) {
-        ResultSet rs = db.executeQuery("SELECT COUNT(project_id) FROM projects WHERE user_id = "+userId+";");
-        int res = 0;
-        try {
-            while(rs.next()) {
-                res = rs.getInt(1);
-            }
-            rs.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return res;
-    }
-
-    private int tasksCount(long userId) {
-        ResultSet rs = db.executeQuery("SELECT COUNT(task_id) FROM tasks WHERE user_id = "+userId+";");
-        int res = 0;
-        try {
-            while(rs.next()) {
-                res = rs.getInt(1);
-            }
-            rs.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return res;
-    }
-
-    private int bugsCount(long userId) {
-        ResultSet rs = db.executeQuery("SELECT COUNT(bug_id) FROM bugs WHERE user_id = "+userId+";");
-        int res = 0;
-        try {
-            while(rs.next()) {
-                res = rs.getInt(1);
-            }
-            rs.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return res;
     }
 
 }
