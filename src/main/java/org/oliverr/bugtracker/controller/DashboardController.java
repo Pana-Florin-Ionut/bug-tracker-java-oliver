@@ -10,8 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 @Controller
 public class DashboardController {

@@ -6,6 +6,7 @@ import org.oliverr.bugtracker.entity.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -80,6 +81,35 @@ public class NotificationRepository {
         }
 
         return notifications;
+    }
+
+    public Notification getNotificationById(Long notificationId) {
+        Notification notification = null;
+        ResultSet rs = db.executeQuery("SELECT * FROM notifications WHERE notification_id = "+notificationId+";");
+        try {
+            while(rs.next()) {
+                notification = new Notification();
+                notification.setNotificationId(rs.getLong(1));
+                notification.setUserId(rs.getLong(2));
+                notification.setMessage(rs.getString(3));
+                notification.setDatetime(rs.getString(4));
+                notification.setOpened(rs.getInt(5) == 1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return notification;
+    }
+
+    public void markAsRead(Long notificationId) {
+        try {
+            PreparedStatement ps = db.conn.prepareStatement("UPDATE notifications SET isOpened = 1 WHERE notification_id = ?;");
+            ps.setLong(1, notificationId);
+            ps.execute();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }
