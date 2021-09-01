@@ -112,4 +112,14 @@ public class NotificationRepository {
         }
     }
 
+    public void removeNotification(Long notificationId) {
+        try {
+            PreparedStatement ps = db.conn.prepareStatement("DELETE FROM notifications WHERE notification_id = ?;");
+            ps.setLong(1, notificationId);
+            ps.execute();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

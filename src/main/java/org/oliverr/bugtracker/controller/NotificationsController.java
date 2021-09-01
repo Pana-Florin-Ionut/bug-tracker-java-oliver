@@ -8,8 +8,10 @@ import org.oliverr.bugtracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.security.Principal;
 import java.util.Objects;
@@ -61,6 +63,12 @@ public class NotificationsController {
             return "error";
         }
         return "error";
+    }
+
+    @RequestMapping(value = "/notification/remove", method = RequestMethod.POST)
+    public String removeNotification(@ModelAttribute Notification notification) {
+        nr.removeNotification(notification.getNotificationId());
+        return "redirect:/notifications";
     }
 
 }
