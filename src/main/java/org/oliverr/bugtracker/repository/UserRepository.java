@@ -84,4 +84,32 @@ public class UserRepository {
         }
     }
 
+    public void addUser(String fname, String lname, String email, String password) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String encodedPw = encoder.encode(password);
+        try {
+            PreparedStatement ps = db.conn.prepareStatement("INSERT INTO users (fname, lname, email, password, image) VALUES (?, ?, ?, ?, '/assets/images/faces/face15.jpg');");
+            ps.setString(1, fname);
+            ps.setString(2, lname);
+            ps.setString(3, email);
+            ps.setString(4, encodedPw);
+
+            ps.execute();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addRole(Long userId, Long roleId) {
+        try {
+            PreparedStatement ps = db.conn.prepareStatement("INSERT INTO users_roles(user_id, role_id) VALUES (?, ?);");
+            ps.setLong(1, userId);
+            ps.setLong(2, roleId);
+
+            ps.execute();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
