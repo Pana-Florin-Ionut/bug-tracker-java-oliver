@@ -38,6 +38,11 @@ public class EmployeeController {
 
     @RequestMapping(value = "/admin/employee/add", method = RequestMethod.POST)
     public String addUser(@ModelAttribute User user) {
+        User found = ur.findByEmail(user.getEmail());
+        if(found != null) {
+            return "redirect:/employees?emailTaken";
+        }
+
         ur.addUser(user.getFname(), user.getLname(), user.getEmail(), user.getPassword());
         ur.addRole(ur.findByEmail(user.getEmail()).getId(), Long.parseLong("1"));
 
