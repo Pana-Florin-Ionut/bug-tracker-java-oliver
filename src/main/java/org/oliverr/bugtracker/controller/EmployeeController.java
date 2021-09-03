@@ -1,12 +1,15 @@
 package org.oliverr.bugtracker.controller;
 
 import org.oliverr.bugtracker.entity.User;
+import org.oliverr.bugtracker.repository.BugRepository;
 import org.oliverr.bugtracker.repository.NotificationRepository;
+import org.oliverr.bugtracker.repository.TaskRepository;
 import org.oliverr.bugtracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -22,6 +25,14 @@ public class EmployeeController {
     private NotificationRepository nr;
     @Autowired
     public void setNr(NotificationRepository nr) { this.nr = nr; }
+
+    private BugRepository br;
+    @Autowired
+    public void setBr(BugRepository br) { this.br = br; }
+
+    private TaskRepository tr;
+    @Autowired
+    public void setTr(TaskRepository tr) { this.tr = tr; }
 
     @RequestMapping("/employees")
     public String employees(Model model, Principal principal) {
@@ -48,6 +59,26 @@ public class EmployeeController {
         ur.addRole(ur.findByEmail(user.getEmail()).getId(), Long.parseLong("1"));
 
         return "redirect:/employees";
+    }
+
+    @RequestMapping("/employee/{email}")
+    public String employee(Model model, Principal principal, @PathVariable(value="email") String email) {
+        User foundUser = ur.findByEmail(email);
+        if(foundUser == null) {
+            return "error";
+        }
+
+        User loggedUser = ur.findByEmail(principal.getName());
+        model.addAttribute("user", loggedUser);
+        model.addAttribute("isAdmin", ur.isAdmin(loggedUser));
+        model.addAttribute("pageTitle", email+" | Bug Tracker");
+        model.addAttribute("isUnread", nr.isThereUnread(loggedUser.getId()));
+
+        model.addAttribute("foundEmployee", foundUser);
+        model.addAttribute("totalBugs", br.getBugCount(foundUser.getId()));
+        model.addAttribute("totalTasks", tr.getTaskCount(foundUser.getId()));
+
+        return "employee";
     }
 
 }

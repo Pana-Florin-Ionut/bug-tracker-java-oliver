@@ -33,7 +33,7 @@
 
                           <tr>
                             <td>
-                              <img th:src="${user.image}" src="assets/images/faces/face2.jpg" alt="image"/>
+                              <a href="#" th:href="@{|/employee/${user.email}|}"><img th:src="${user.image}" src="assets/images/faces/face2.jpg" alt="image"/></a>
                             </td>
                             <td th:text="${user.fname}"> First </td>
                             <td th:text="${user.lname}"> Last </td>

@@ -59,6 +59,7 @@ public class UserRepository {
                 e.printStackTrace();
                 return null;
             }
+            user.setAdmin(isAdmin(user));
         }
 
         return user;
