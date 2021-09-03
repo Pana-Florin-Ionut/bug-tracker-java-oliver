@@ -32,6 +32,7 @@ public class EmployeeController {
         model.addAttribute("isUnread", nr.isThereUnread(loggedUser.getId()));
 
         model.addAttribute("employee", new User());
+        model.addAttribute("allUsers", ur.getAllUser());
 
         return "employees";
     }

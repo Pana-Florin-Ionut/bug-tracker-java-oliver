@@ -12,6 +12,7 @@ public class User {
     private String created;
     private String lastLogin;
     private String image;
+    private boolean isAdmin;
 
     private HashSet<Role> roles = new HashSet<Role>();
 
@@ -46,5 +47,8 @@ public class User {
     public HashSet<Role> getRoles() { return roles; }
     public void setRoles(HashSet<Role> roles) { this.roles = roles; }
     public void addToRoles(Role r) { roles.add(r); }
+
+    public boolean isAdmin() { return isAdmin; }
+    public void setAdmin(boolean admin) { isAdmin = admin; }
 
 }

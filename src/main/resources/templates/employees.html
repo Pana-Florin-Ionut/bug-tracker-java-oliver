@@ -14,6 +14,49 @@
           <div class="content-wrapper">
 
             <div class="row">
+              <div class="col-12 grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Order Status</h4>
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th> Avatar </th>
+                            <th> First Name </th>
+                            <th> Last Name </th>
+                            <th> Email </th>
+                            <th> Role </th>
+                          </tr>
+                        </thead>
+                        <tbody th:each="user : ${allUsers}">
+
+                          <tr>
+                            <td>
+                              <img th:src="${user.image}" src="assets/images/faces/face2.jpg" alt="image"/>
+                            </td>
+                            <td th:text="${user.fname}"> First </td>
+                            <td th:text="${user.lname}"> Last </td>
+                            <td th:text="${user.email}"> user@gmail.com </td>
+
+                            <td th:if="${user.isAdmin == false}">
+                              <div class="badge badge-outline-warning">Employee</div>
+                            </td>
+
+                            <td th:if="${user.isAdmin}">
+                              <div class="badge badge-outline-danger">Admin</div>
+                            </td>
+                          </tr>
+
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
               <div class="col-12 col-lg-12 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">

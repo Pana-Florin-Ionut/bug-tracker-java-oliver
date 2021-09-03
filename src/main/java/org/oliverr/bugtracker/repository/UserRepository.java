@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 @Repository
 @Component
@@ -110,6 +111,53 @@ public class UserRepository {
         } catch(SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<User> getAllUser() {
+        ArrayList<User> users = new ArrayList<>();
+
+        ResultSet rs = db.executeQuery("SELECT * FROM users ORDER BY user_id DESC;");
+
+        try {
+            while(rs.next()) {
+                User user = new User();
+                user.setId(rs.getLong(1));
+                user.setFname(rs.getString(2));
+                user.setLname(rs.getString(3));
+                user.setEmail(rs.getString(4));
+                user.setPassword(rs.getString(5));
+                user.setCreated(rs.getString(6));
+                user.setLastLogin(rs.getString(7));
+                user.setImage(rs.getString(8));
+
+                users.add(user);
+            }
+            rs.close();
+        } catch(SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        for(User u : users) {
+            if (u != null) {
+                ResultSet rs2 = db.executeQuery("SELECT roles.* FROM roles INNER JOIN users_roles ON users_roles.role_id = roles.role_id WHERE users_roles.user_id = "+u.getId()+";");
+                try {
+                    while(rs2.next()) {
+                        Role role = new Role();
+                        role.setId(rs2.getLong(1));
+                        role.setRole(rs2.getString(2));
+                        u.addToRoles(role);
+                    }
+                    rs2.close();
+                } catch(SQLException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+                u.setAdmin(isAdmin(u));
+            }
+        }
+
+        return users;
     }
 
 }
