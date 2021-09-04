@@ -48,6 +48,34 @@ public class EmployeeController {
         return "employees";
     }
 
+    @RequestMapping("/employees/admin")
+    public String admins(Model model, Principal principal) {
+        User loggedUser = ur.findByEmail(principal.getName());
+        model.addAttribute("user", loggedUser);
+        model.addAttribute("isAdmin", ur.isAdmin(loggedUser));
+        model.addAttribute("pageTitle", "Employees | Bug Tracker");
+        model.addAttribute("isUnread", nr.isThereUnread(loggedUser.getId()));
+
+        model.addAttribute("employee", new User());
+        model.addAttribute("allUsers", ur.getAllUser());
+
+        return "admins";
+    }
+
+    @RequestMapping("/employees/employee")
+    public String filteredEmployees(Model model, Principal principal) {
+        User loggedUser = ur.findByEmail(principal.getName());
+        model.addAttribute("user", loggedUser);
+        model.addAttribute("isAdmin", ur.isAdmin(loggedUser));
+        model.addAttribute("pageTitle", "Employees | Bug Tracker");
+        model.addAttribute("isUnread", nr.isThereUnread(loggedUser.getId()));
+
+        model.addAttribute("employee", new User());
+        model.addAttribute("allUsers", ur.getAllUser());
+
+        return "filteredEmployees";
+    }
+
     @RequestMapping(value = "/admin/employee/add", method = RequestMethod.POST)
     public String addUser(@ModelAttribute User user) {
         User found = ur.findByEmail(user.getEmail());
