@@ -9,7 +9,9 @@ import org.springframework.stereotype.Component;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 @Component
 public class NotificationRepository {
@@ -116,6 +118,21 @@ public class NotificationRepository {
         try {
             PreparedStatement ps = db.conn.prepareStatement("DELETE FROM notifications WHERE notification_id = ?;");
             ps.setLong(1, notificationId);
+            ps.execute();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendMessage(Long userId, String message) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Date date = new Date();
+        String current = formatter.format(date);
+        try {
+            PreparedStatement ps = db.conn.prepareStatement("INSERT INTO notifications(user_id, message, sent, isOpened) VALUES (?, ?, ?, 0);");
+            ps.setLong(1, userId);
+            ps.setString(2, message);
+            ps.setString(3, current);
             ps.execute();
         } catch(SQLException e) {
             e.printStackTrace();

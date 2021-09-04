@@ -65,6 +65,49 @@ public class UserRepository {
         return user;
     }
 
+    public User findById(Long id) {
+
+        ResultSet rs = db.executeQuery("SELECT * FROM users WHERE user_id = '"+id+"';");
+        User user = null;
+
+        try {
+            while(rs.next()) {
+                user = new User();
+                user.setId(rs.getLong(1));
+                user.setFname(rs.getString(2));
+                user.setLname(rs.getString(3));
+                user.setEmail(rs.getString(4));
+                user.setPassword(rs.getString(5));
+                user.setCreated(rs.getString(6));
+                user.setLastLogin(rs.getString(7));
+                user.setImage(rs.getString(8));
+            }
+            rs.close();
+        } catch(SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        if (user != null) {
+            ResultSet rs2 = db.executeQuery("SELECT roles.* FROM roles INNER JOIN users_roles ON users_roles.role_id = roles.role_id WHERE users_roles.user_id = "+user.getId()+";");
+            try {
+                while(rs2.next()) {
+                    Role role = new Role();
+                    role.setId(rs2.getLong(1));
+                    role.setRole(rs2.getString(2));
+                    user.addToRoles(role);
+                }
+                rs2.close();
+            } catch(SQLException e) {
+                e.printStackTrace();
+                return null;
+            }
+            user.setAdmin(isAdmin(user));
+        }
+
+        return user;
+    }
+
     public boolean isAdmin(User loggedUser) {
         for(Role r : loggedUser.getRoles()) {
             if(r.getRole().equalsIgnoreCase("admin")) return true;
