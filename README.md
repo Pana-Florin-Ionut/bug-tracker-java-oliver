@@ -1,10 +1,8 @@
 # Bug Tracker
-<img src="https://img.shields.io/github/license/0l1v3rr/bug-tracker?color=red&style=flat-square">
-<img src="https://img.shields.io/github/last-commit/0l1v3rr/bug-tracker?color=blue&style=flat-square">
-<br>
-<img src="https://img.shields.io/badge/Spring_Boot-%236DB33F.svg?style=flat-square&logo=springboot&logoColor=white">
-<img src="https://img.shields.io/badge/Thymeleaf-%23005C0F.svg?style=flat-square&logo=Thymeleaf&logoColor=white">
-
+<img align="left" src="https://img.shields.io/github/license/0l1v3rr/bug-tracker?color=red&style=flat">
+<img align="left" src="https://img.shields.io/github/last-commit/0l1v3rr/bug-tracker?color=blue&style=flat">
+<img align="left" src="https://img.shields.io/badge/Spring_Boot-%236DB33F.svg?style=flat&logo=springboot&logoColor=white">
+<img align="left" src="https://img.shields.io/badge/Thymeleaf-%23005C0F.svg?style=flat&logo=Thymeleaf&logoColor=white">
 <br>
 
 ## Features
