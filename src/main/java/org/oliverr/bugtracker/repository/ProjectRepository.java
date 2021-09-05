@@ -169,4 +169,14 @@ public class ProjectRepository {
         }
     }
 
+    public void deleteProject(Long projectId) {
+        try {
+            PreparedStatement ps = db.conn.prepareStatement("DELETE FROM projects WHERE project_id = ?;");
+            ps.setLong(1, projectId);
+            ps.execute();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

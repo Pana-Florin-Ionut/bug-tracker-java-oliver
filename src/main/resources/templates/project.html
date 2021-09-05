@@ -53,6 +53,13 @@
                     <p style="color: #6c7293;" th:text="${foundProject.description}"></p>
                     <h5 class="card-title mt-4">Read Me</h5>
                     <p style="color: #6c7293;" th:utext="${foundProject.readme}"></p>
+
+                    <div class="border-bottom my-4"></div>
+
+                    <form th:object="${foundProject}" th:method="post" th:action="@{/project/delete}">
+                      <input type="hidden" th:field="*{projectId}" th:value="${foundProject.projectId}">
+                      <button type="submit" class="btn btn-outline-danger">Delete Project</button>
+                    </form>
                   </div>
                 </div>
               </div>

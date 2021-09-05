@@ -110,4 +110,11 @@ public class ProjectsController {
         return "redirect:/project/"+project.getProjectId();
     }
 
+    @RequestMapping(value = "/project/delete", method = RequestMethod.POST)
+    public String deleteProject(@ModelAttribute Project project) {
+        Project p = pr.getProject(project.getProjectId());
+        pr.deleteProject(p.getProjectId());
+        return "redirect:/projects";
+    }
+
 }
