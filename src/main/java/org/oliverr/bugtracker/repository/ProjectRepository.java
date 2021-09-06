@@ -174,6 +174,14 @@ public class ProjectRepository {
             PreparedStatement ps = db.conn.prepareStatement("DELETE FROM projects WHERE project_id = ?;");
             ps.setLong(1, projectId);
             ps.execute();
+
+            PreparedStatement ps2 = db.conn.prepareStatement("DELETE FROM tasks WHERE project_id = ?;");
+            ps2.setLong(1, projectId);
+            ps2.execute();
+
+            PreparedStatement ps3 = db.conn.prepareStatement("DELETE FROM bugs WHERE project_id = ?;");
+            ps3.setLong(1, projectId);
+            ps3.execute();
         } catch(SQLException e) {
             e.printStackTrace();
         }
