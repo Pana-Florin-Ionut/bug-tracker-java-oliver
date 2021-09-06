@@ -137,11 +137,18 @@ public class TasksController {
     }
 
     @RequestMapping(value = "/tasks/edit", method = RequestMethod.POST)
-    public String editBug(@ModelAttribute Task task, Principal principal) {
+    public String editTask(@ModelAttribute Task task, Principal principal) {
         User user = ur.findByEmail(principal.getName());
         tr.updateTask(task.getTaskId(), pr.getProjectIdByName(task.getProjectName()), task.getTitle(), task.getDescription(), task.getStatus());
 
         return "redirect:/task/"+task.getTaskId();
+    }
+
+    @RequestMapping(value = "/task/delete", method = RequestMethod.POST)
+    public String deleteTask(@ModelAttribute Task task) {
+        Task t = tr.getTaskById(task.getTaskId());
+        tr.deleteTask(t.getTaskId());
+        return "redirect:/tasks";
     }
 
 }

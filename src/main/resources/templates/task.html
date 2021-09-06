@@ -46,6 +46,13 @@
                     </div>
                     <h5 class="card-title mt-4">Task Description</h5>
                     <p style="color: #6c7293;" th:text="${foundTask.description}"></p>
+
+                    <div class="border-bottom my-4"></div>
+
+                    <form th:object="${foundTask}" th:method="post" th:action="@{/task/delete}">
+                      <input type="hidden" th:field="*{taskId}" th:value="${foundTask.taskId}">
+                      <button type="submit" class="btn btn-outline-danger">Delete Task</button>
+                    </form>
                   </div>
                 </div>
               </div>

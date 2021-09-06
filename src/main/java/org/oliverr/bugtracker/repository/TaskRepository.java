@@ -212,4 +212,14 @@ public class TaskRepository {
         }
     }
 
+    public void deleteTask(Long taskId) {
+        try {
+            PreparedStatement ps = db.conn.prepareStatement("DELETE FROM tasks WHERE task_id = ?;");
+            ps.setLong(1, taskId);
+            ps.execute();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
