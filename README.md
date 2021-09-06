@@ -32,7 +32,12 @@ Now, the data in the [data.sql](https://github.com/0l1v3rr/bug-tracker/blob/mast
 In line 4, change the first 3 values to whatever you want. The default password will be **pass**, but you can easily change it later.<br>
 This user will be the **admin**, who can register more employees.<br><br>
 Now in the [DB.java](https://github.com/0l1v3rr/bug-tracker/blob/master/src/main/java/org/oliverr/bugtracker/DB.java) file, change the URL, USERNAME, and PASSWORD to the appropriate values.<br>
-You can use not only MySQL but also other relational databases if you modify DRIVER accordingly.<br><br>
+```java
+private final String URL = "jdbc:mysql://<ip>:<port>/<database_name>";
+private final String USERNAME = "<username>";
+private final String PASSWORD = "<password>";
+```
+You can use not only MySQL but also other relational databases if you modify DRIVER and URL accordingly.<br><br>
 If you have successfully set up the database, then you can run this project:
 ```sh
 sh run.sh
