@@ -146,4 +146,11 @@ public class BugsController {
         return "redirect:/bug/"+bug.getBugId();
     }
 
+    @RequestMapping(value = "/bug/delete", method = RequestMethod.POST)
+    public String deleteBug(@ModelAttribute Bug bug) {
+        Bug b = br.getBugById(bug.getBugId());
+        br.deleteBug(b.getBugId());
+        return "redirect:/bugs";
+    }
+
 }

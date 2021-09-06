@@ -46,6 +46,13 @@
                     </div>
                     <h5 class="card-title mt-4">Bug Description</h5>
                     <p style="color: #6c7293;" th:text="${foundBug.description}"></p>
+
+                    <div class="border-bottom my-4"></div>
+
+                    <form th:object="${foundBug}" th:method="post" th:action="@{/bug/delete}">
+                      <input type="hidden" th:field="*{bugId}" th:value="${foundBug.bugId}">
+                      <button type="submit" class="btn btn-outline-danger">Delete Bug</button>
+                    </form>
                   </div>
                 </div>
               </div>

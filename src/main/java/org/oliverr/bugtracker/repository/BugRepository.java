@@ -212,4 +212,14 @@ public class BugRepository {
         }
     }
 
+    public void deleteBug(Long bugId) {
+        try {
+            PreparedStatement ps = db.conn.prepareStatement("DELETE FROM bugs WHERE bug_id = ?;");
+            ps.setLong(1, bugId);
+            ps.execute();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
