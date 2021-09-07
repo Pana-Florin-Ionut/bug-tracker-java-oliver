@@ -34,14 +34,14 @@
                           <tr>
                             <td><a th:text="${project.title}" th:href="@{|/project/${project.projectId}|}" href="#" class="list-link">Test Project</a></td>
 
-                            <td th:if="${project.contributors} <= 1"> <span th:text="${project.contributors}">0</span> contributor</td>
-                            <td th:if="${project.contributors} > 1"> <span th:text="${project.contributors}">0</span> contributors</td>
+                            <td th:if="${project.contributors} <= 1"> <a style="color: #6c7693"><span th:text="${project.contributors}">0</span> contributor</a></td>
+                            <td th:if="${project.contributors} > 1"> <a style="color: #6c7693"><span th:text="${project.contributors}">0</span> contributors</a></td>
 
-                            <td th:if="${project.bugCount} <= 1"> <span th:text="${project.bugCount}">0</span> bug</td>
-                            <td th:if="${project.bugCount} > 1"> <span th:text="${project.bugCount}">0</span> bugs</td>
+                            <td th:if="${project.bugCount} <= 1"> <a th:href="@{|/bugs/project/${project.projectId}|}" style="color: #6c7693"><span th:text="${project.bugCount}">0</span> bug</a></td>
+                            <td th:if="${project.bugCount} > 1"> <a th:href="@{|/bugs/project/${project.projectId}|}" style="color: #6c7693"><span th:text="${project.bugCount}">0</span> bugs</a></td>
 
-                            <td th:if="${project.taskCount} <= 1"> <span th:text="${project.taskCount}">0</span> task</td>
-                            <td th:if="${project.taskCount} > 1"> <span th:text="${project.taskCount}">0</span> tasks</td>
+                            <td th:if="${project.taskCount} <= 1"> <a th:href="@{|/tasks/project/${project.projectId}|}" style="color: #6c7693"><span th:text="${project.taskCount}">0</span> task</a></td>
+                            <td th:if="${project.taskCount} > 1"> <a th:href="@{|/tasks/project/${project.projectId}|}" style="color: #6c7693"><span th:text="${project.taskCount}">0</span> tasks</a></td>
 
                             <td><a th:href="@{|/project/${project.projectId}/edit|}" href="#" style="color: #6c7293; font-size: 1.2rem;" class="mdi mdi-pencil"></a></td>
                           </tr>
