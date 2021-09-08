@@ -46,6 +46,7 @@ CREATE TABLE bugs (
     user_id bigint NOT NULL,
     title varchar(50),
     description varchar(1000),
+    created(100),
     status varchar(20),
     PRIMARY KEY(bug_id)
 );
