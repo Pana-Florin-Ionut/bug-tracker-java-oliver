@@ -8,7 +8,9 @@ import org.springframework.stereotype.Component;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 @Component
 public class TaskRepository {
@@ -46,7 +48,8 @@ public class TaskRepository {
                 task.setUserId(rs.getLong(3));
                 task.setTitle(rs.getString(4));
                 task.setDescription(rs.getString(5));
-                task.setStatus(rs.getString(6));
+                task.setCreated(rs.getString(6));
+                task.setStatus(rs.getString(7));
 
                 tasks.add(task);
             }
@@ -83,7 +86,8 @@ public class TaskRepository {
                 task.setUserId(rs.getLong(3));
                 task.setTitle(rs.getString(4));
                 task.setDescription(rs.getString(5));
-                task.setStatus(rs.getString(6));
+                task.setCreated(rs.getString(6));
+                task.setStatus(rs.getString(7));
 
                 tasks.add(task);
             }
@@ -109,13 +113,17 @@ public class TaskRepository {
     }
 
     public void addTask(long projectId, long userId, String title, String description, String status) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Date date = new Date();
+        String current = formatter.format(date);
         try {
-            PreparedStatement ps = db.conn.prepareStatement("INSERT INTO tasks(project_id, user_id, title, description, status) VALUES (?, ?, ?, ?, ?);");
+            PreparedStatement ps = db.conn.prepareStatement("INSERT INTO tasks(project_id, user_id, title, description, created, status) VALUES (?, ?, ?, ?, ?, ?);");
             ps.setLong(1, projectId);
             ps.setLong(2, userId);
             ps.setString(3, title);
             ps.setString(4, description);
-            ps.setString(5, status);
+            ps.setString(5, current);
+            ps.setString(6, status);
             ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -163,7 +171,8 @@ public class TaskRepository {
                 task.setUserId(rs.getLong(3));
                 task.setTitle(rs.getString(4));
                 task.setDescription(rs.getString(5));
-                task.setStatus(rs.getString(6));
+                task.setCreated(rs.getString(6));
+                task.setStatus(rs.getString(7));
             }
             rs.close();
         } catch(SQLException e) {
