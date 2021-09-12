@@ -40,6 +40,10 @@ public class TodoRepository {
     }
 
     public void addTodo(String task, Long userId) {
+        if(task.length() >= 46) {
+            return;
+        }
+
         try {
             PreparedStatement ps = db.conn.prepareStatement("INSERT INTO todo(user_id, task, status) VALUES (?, ?, 'pending');");
             ps.setLong(1, userId);
