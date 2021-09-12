@@ -36,7 +36,7 @@ CREATE TABLE tasks (
     user_id bigint NOT NULL,
     title varchar(50),
     description varchar(1000),
-    created(100),
+    created varchar(100),
     status varchar(20),
     PRIMARY KEY(task_id)
 );
@@ -47,7 +47,7 @@ CREATE TABLE bugs (
     user_id bigint NOT NULL,
     title varchar(50),
     description varchar(1000),
-    created(100),
+    created varchar(100),
     status varchar(20),
     PRIMARY KEY(bug_id)
 );
