@@ -37,11 +37,11 @@
                             <td th:if="${foundProject.contributors} <= 1"> <span th:text="${foundProject.contributors}">0</span> contributor</td>
                             <td th:if="${foundProject.contributors} > 1"> <span th:text="${foundProject.contributors}">0</span> contributors</td>
 
-                            <td th:if="${foundProject.bugCount} <= 1"> <span th:text="${foundProject.bugCount}">0</span> bug</td>
-                            <td th:if="${foundProject.bugCount} > 1"> <span th:text="${foundProject.bugCount}">0</span> bugs</td>
+                            <td th:if="${foundProject.bugCount} <= 1"> <a th:href="@{|/bugs/project/${foundProject.projectId}|}" style="color: #6c7693"><span th:text="${foundProject.bugCount}">0</span> bug</a></td>
+                            <td th:if="${foundProject.bugCount} > 1"> <a th:href="@{|/bugs/project/${foundProject.projectId}|}" style="color: #6c7693"><span th:text="${foundProject.bugCount}">0</span> bugs</a></td>
 
-                            <td th:if="${foundProject.taskCount} <= 1"> <span th:text="${foundProject.taskCount}">0</span> task</td>
-                            <td th:if="${foundProject.taskCount} > 1"> <span th:text="${foundProject.taskCount}">0</span> tasks</td>
+                            <td th:if="${foundProject.taskCount} <= 1"> <a th:href="@{|/tasks/project/${foundProject.projectId}|}" style="color: #6c7693"><span th:text="${foundProject.taskCount}">0</span> task</a></td>
+                            <td th:if="${foundProject.taskCount} > 1"> <a th:href="@{|/tasks/project/${foundProject.projectId}|}" style="color: #6c7693"><span th:text="${foundProject.taskCount}">0</span> tasks</a></td>
 
                             <td><a th:href="@{|/project/${foundProject.projectId}/edit|}" href="#" style="color: #6c7293; font-size: 1.2rem;" class="mdi mdi-pencil"></a></td>
                           </tr>
