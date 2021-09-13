@@ -17,14 +17,12 @@
               <div class="col-md-12 col-sm-12 grid-margin">
                 <div class="card">
                   <div class="card-body">
-                    <h5>Profile information</h5>
+                    <h5>Profile Information</h5>
 
                     <div class="row mt-4 mb-4">
-                      <div class="col-6 col-sm-6 col-xl-5">
-                        <img width="120px" th:src="${foundEmployee.image}" src="/assets/images/faces/face11.jpg" alt="Profile Picture" class="ml-2">
-                      </div>
-                      <div class="col-6 col-sm-6 col-xl-7">
-                        <h6 class="mb-1">Full Name:</h6>
+                      <div class="col-sm-6 col-xl-6 col-lg-6">
+                        <img width="100px" th:src="${foundEmployee.image}" src="/assets/images/faces/face11.jpg" alt="Profile Picture" class="ml-2">
+                        <h6 class="mb-1 mt-5">Full Name:</h6>
                         <p class="text-muted mb-0"><span th:text="${foundEmployee.fname}"></span> <span th:text="${foundEmployee.lname}"></span></p>
 
                         <h6 class="mb-1 mt-4">Email:</h6>
@@ -34,17 +32,19 @@
                         <p class="text-muted mb-0" th:if="${foundEmployee.isAdmin == false}">Employee</p>
                         <p class="text-muted mb-0" th:if="${foundEmployee.isAdmin}">Admin</p>
                       </div>
-                    </div>
-                    <hr style="background-color: #292d38;">
-                    <div class="row mt-3">
-                        <div class="col-6">
-                          <h6 class="mb-1 mt-4">Total Bugs:</h6>
-                          <p class="text-muted mb-0" th:text="${totalBugs}">0</p>
-                        </div>
-                        <div class="col-6">
-                          <h6 class="mb-1 mt-4">Total Tasks:</h6>
-                          <p class="text-muted mb-0" th:text="${totalTasks}">0</p>
-                        </div>
+                      <div class="col-sm-6 col-xl-6 col-lg-6 mt-4">
+                        <h6 class="mb-1">Registered:</h6>
+                        <p class="text-muted mb-0" th:text="${foundEmployee.created}"></p>
+
+                        <h6 class="mb-1 mt-4">Last Login:</h6>
+                        <p class="text-muted mb-0" th:text="${foundEmployee.lastLogin}"></p>
+
+                        <h6 class="mb-1 mt-4">Total Bugs:</h6>
+                        <p class="text-muted mb-0" th:text="${totalBugs}">0</p>
+
+                        <h6 class="mb-1 mt-4">Total Tasks:</h6>
+                        <p class="text-muted mb-0" th:text="${totalTasks}">0</p>
+                      </div>
                     </div>
 
                   </div>
@@ -69,7 +69,6 @@
     <script src="/assets/js/hoverable-collapse.js"></script>
     <script src="/assets/js/misc.js"></script>
     <script src="/assets/js/settings.js"></script>
-    <script src="/assets/js/todolist.js"></script>
 
     <script src="/assets/js/dashboard.js"></script>
   </body>

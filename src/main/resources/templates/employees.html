@@ -23,9 +23,9 @@
                         <thead>
                           <tr>
                             <th> Avatar </th>
-                            <th> First Name </th>
-                            <th> Last Name </th>
+                            <th> Full Name </th>
                             <th> Email </th>
+                            <th> Registered </th>
                             <th> Role </th>
                           </tr>
                         </thead>
@@ -35,9 +35,9 @@
                             <td>
                               <a href="#" th:href="@{|/employee/${user.email}|}"><img th:src="${user.image}" src="assets/images/faces/face2.jpg" alt="image"/></a>
                             </td>
-                            <td th:text="${user.fname}"> First </td>
-                            <td th:text="${user.lname}"> Last </td>
+                            <td><span th:text="${user.fname}"></span> <span th:text="${user.lname}"></span></td>
                             <td th:text="${user.email}"> user@gmail.com </td>
+                            <td th:text="${user.created}"> 02/02/2020 </td>
 
                             <td th:if="${user.isAdmin == false}">
                               <a href="/employees/employee"><div class="badge badge-outline-warning">Employee</div></a>
