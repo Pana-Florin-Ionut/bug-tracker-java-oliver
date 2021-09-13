@@ -11,7 +11,9 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 @Repository
 @Component
@@ -130,19 +132,25 @@ public class UserRepository {
     }
 
     public void addUser(String fname, String lname, String email, String password) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String encodedPw = encoder.encode(password);
-
         if(fname.length() >= 100 || lname.length() >= 100 || email.length() >= 100) {
             return;
         }
 
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String encodedPw = encoder.encode(password);
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Date date = new Date();
+        String current = formatter.format(date);
+
         try {
-            PreparedStatement ps = db.conn.prepareStatement("INSERT INTO users (fname, lname, email, password, image) VALUES (?, ?, ?, ?, '/assets/images/faces/face15.jpg');");
+            PreparedStatement ps = db.conn.prepareStatement("INSERT INTO users (fname, lname, email, password, image, created, last_login) VALUES (?, ?, ?, ?, '/assets/images/faces/face15.jpg', ?, ?);");
             ps.setString(1, fname);
             ps.setString(2, lname);
             ps.setString(3, email);
             ps.setString(4, encodedPw);
+            ps.setString(5, current);
+            ps.setString(6, current);
 
             ps.execute();
         } catch(SQLException e) {

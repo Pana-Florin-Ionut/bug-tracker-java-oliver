@@ -4,8 +4,8 @@ CREATE TABLE users (
     lname varchar(100),
     email varchar(100),
     password varchar(255),
-    created date,
-    last_login date,
+    created varchar(100),
+    last_login varchar(100),
     image varchar(128),
     PRIMARY KEY(user_id)
 );
