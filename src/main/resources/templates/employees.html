@@ -61,7 +61,7 @@
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">Add Employee</h4>
-                    <form class="forms-sample" th:action="@{/admin/employee/add}" th:object="${employee}" method="post">
+                    <form id="employeeForm" class="forms-sample" th:action="@{/admin/employee/add}" th:object="${employee}" method="post">
 
                       <div th:if="${param.emailTaken}" class="alert alert-danger pb-0 pt-3"><p>This email is already taken!</p></div>
 
@@ -112,5 +112,32 @@
     <script src="/assets/js/todolist.js"></script>
 
     <script src="/assets/js/dashboard.js"></script>
+
+    <script>
+      const fname = document.getElementById('fname');
+      const lname = document.getElementById('lname');
+      const email = document.getElementById('email');
+
+      fname.onkeypress = (e) => {
+        if(fname.value.length >= 99) {
+          const value = fname.value;
+          fname.value = value.substring(0, value.length - 1);
+        }
+      }
+
+      lname.onkeypress = (e) => {
+        if(lname.value.length >= 99) {
+          const value = lname.value;
+          lname.value = value.substring(0, value.length - 1);
+        }
+      }
+
+      email.onkeypress = (e) => {
+        if(email.value.length >= 99) {
+          const value = email.value;
+          email.value = value.substring(0, value.length - 1);
+        }
+      }
+    </script>
   </body>
 </html>

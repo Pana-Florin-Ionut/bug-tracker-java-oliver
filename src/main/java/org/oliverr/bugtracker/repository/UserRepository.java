@@ -132,6 +132,11 @@ public class UserRepository {
     public void addUser(String fname, String lname, String email, String password) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String encodedPw = encoder.encode(password);
+
+        if(fname.length() >= 100 || lname.length() >= 100 || email.length() >= 100) {
+            return;
+        }
+
         try {
             PreparedStatement ps = db.conn.prepareStatement("INSERT INTO users (fname, lname, email, password, image) VALUES (?, ?, ?, ?, '/assets/images/faces/face15.jpg');");
             ps.setString(1, fname);

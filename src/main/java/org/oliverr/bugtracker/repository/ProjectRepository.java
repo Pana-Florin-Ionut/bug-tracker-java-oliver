@@ -93,6 +93,10 @@ public class ProjectRepository {
     }
 
     public void addToProjects(long userId, String title, String description, String readme) {
+        if(title.length() >= 30 || description.length() >= 100 || readme.length() >= 1000) {
+            return;
+        }
+
         try {
             PreparedStatement ps = db.conn.prepareStatement("INSERT INTO projects(user_id, title, description, readme) VALUES (?, ?, ?, ?);");
             ps.setLong(1, userId);

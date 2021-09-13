@@ -100,8 +100,34 @@
     <script src="/assets/js/hoverable-collapse.js"></script>
     <script src="/assets/js/misc.js"></script>
     <script src="/assets/js/settings.js"></script>
-    <script src="/assets/js/todolist.js"></script>
 
     <script src="/assets/js/dashboard.js"></script>
+
+    <script>
+      const title = document.getElementById('title');
+      const description = document.getElementById('description');
+      const readme = document.getElementById('readme');
+
+      title.onkeypress = (e) => {
+        if(title.value.length >= 29) {
+          const value = title.value;
+          title.value = value.substring(0, value.length - 1);
+        }
+      }
+
+      description.onkeypress = (e) => {
+        if(description.value.length >= 99) {
+          const value = description.value;
+          description.value = value.substring(0, value.length - 1);
+        }
+      }
+
+      readme.onkeypress = (e) => {
+        if(readme.value.length >= 999) {
+          const value = readme.value;
+          readme.value = value.substring(0, value.length - 1);
+        }
+      }
+    </script>
   </body>
 </html>
