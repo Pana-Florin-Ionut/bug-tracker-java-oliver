@@ -63,17 +63,17 @@
 
                       <div class="form-group">
                         <label for="title">Project Title</label>
-                        <input type="text" th:field="*{title}" class="form-control" id="title" placeholder="Project Title" required>
+                        <input maxlength="30" type="text" th:field="*{title}" class="form-control" id="title" placeholder="Project Title" required>
                       </div>
 
                       <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea class="form-control" th:field="*{description}" id="description" rows="2"></textarea>
+                        <textarea maxlength="100" class="form-control" th:field="*{description}" id="description" rows="2"></textarea>
                       </div>
 
                       <div class="form-group">
                         <label for="readme">Read Me</label>
-                        <textarea class="form-control" th:field="*{readme}" id="readme" rows="4"></textarea>
+                        <textarea maxlength="1000" class="form-control" th:field="*{readme}" id="readme" rows="4"></textarea>
                       </div>
 
                       <button type="submit" class="btn btn-primary mr-2">Submit</button>
@@ -102,32 +102,5 @@
     <script src="/assets/js/settings.js"></script>
 
     <script src="/assets/js/dashboard.js"></script>
-
-    <script>
-      const title = document.getElementById('title');
-      const description = document.getElementById('description');
-      const readme = document.getElementById('readme');
-
-      title.onkeypress = (e) => {
-        if(title.value.length >= 29) {
-          const value = title.value;
-          title.value = value.substring(0, value.length - 1);
-        }
-      }
-
-      description.onkeypress = (e) => {
-        if(description.value.length >= 99) {
-          const value = description.value;
-          description.value = value.substring(0, value.length - 1);
-        }
-      }
-
-      readme.onkeypress = (e) => {
-        if(readme.value.length >= 999) {
-          const value = readme.value;
-          readme.value = value.substring(0, value.length - 1);
-        }
-      }
-    </script>
   </body>
 </html>

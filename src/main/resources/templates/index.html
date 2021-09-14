@@ -159,7 +159,7 @@
                   <div class="card-body">
                     <h4 class="card-title">To do list</h4>
                     <form id="addtodo" th:action="@{/addtodo/}" th:object="${todo}" method="post" class="add-items d-flex">
-                      <input type="text" id="taskField" th:field="*{task}" class="form-control todo-list-input" placeholder="enter task..." required>
+                      <input maxlength="46" type="text" id="taskField" th:field="*{task}" class="form-control todo-list-input" placeholder="enter task..." required>
                       <button id="todoAdd" class="add btn btn-primary todo-list-add-btn" type="submit">Add</button>
                     </form>
                     <div class="list-wrapper">
@@ -200,27 +200,5 @@
     <script src="/assets/js/settings.js"></script>
 
     <script src="assets/js/dashboard.js"></script>
-
-    <script>
-      const todoForm = document.getElementById('addtodo');
-      const todoBtn = document.getElementById('todoAdd');
-      const taskField = document.getElementById('taskField');
-
-      todoForm.onkeypress = (e) => {
-        if(taskField.value.length >= 45) {
-          const value = taskField.value;
-          taskField.value = value.substring(0, value.length - 1);
-        }
-      }
-
-      todoBtn.onclick = (e) => {
-        e.preventDefault();
-        if(!taskField.value || taskField.value == "" || taskField.value.length < 1) {
-            return;
-        } 
-
-        todoForm.submit();
-      }
-    </script>
   </body>
 </html>
