@@ -217,4 +217,19 @@ public class UserRepository {
         return users;
     }
 
+    public void updateLastLoginDate(Long userid) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Date date = new Date();
+        String current = formatter.format(date);
+
+        try {
+            PreparedStatement ps = db.conn.prepareStatement("UPDATE users SET last_login = ? WHERE user_id = ?;");
+            ps.setString(1, current);
+            ps.setLong(2, userid);
+            ps.execute();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

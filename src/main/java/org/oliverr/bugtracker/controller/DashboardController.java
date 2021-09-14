@@ -14,10 +14,6 @@ import java.security.Principal;
 @Controller
 public class DashboardController {
 
-    private DB db;
-    @Autowired
-    public void setDb(DB db) { this.db = db; }
-
     private UserRepository ur;
     @Autowired
     public void setUr(UserRepository ur) { this.ur = ur; }
@@ -62,6 +58,7 @@ public class DashboardController {
         model.addAttribute("unreadNotification", nr.getUnreadNotifications(loggedUser.getId()));
 
         model.addAttribute("todo", new Todo());
+        ur.updateLastLoginDate(loggedUser.getId());
 
         return "index";
     }
