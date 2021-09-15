@@ -113,6 +113,10 @@ public class BugRepository {
     }
 
     public void addBug(long projectId, long userId, String title, String description, String status) {
+        if(title.length() > 50 || description.length() > 1000) {
+            return;
+        }
+        
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         Date date = new Date();
         String current = formatter.format(date);
@@ -208,6 +212,10 @@ public class BugRepository {
     }
 
     public void updateBug(long bugId, long projectId, String title, String description, String status) {
+        if(title.length() > 50 || description.length() > 1000) {
+            return;
+        }
+        
         try {
             PreparedStatement ps = db.conn.prepareStatement("UPDATE bugs SET project_id = ?, title = ?, description = ?, status = ? WHERE bug_id = ?;");
             ps.setLong(1, projectId);

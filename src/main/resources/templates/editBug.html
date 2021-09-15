@@ -24,12 +24,12 @@
 
                       <div class="form-group">
                         <label for="title">Edit Title</label>
-                        <input type="text" th:field="*{title}" th:value="${bug.title}" class="form-control" id="title" placeholder="Bug Title" required>
+                        <input maxlength="50" type="text" th:field="*{title}" th:value="${bug.title}" class="form-control" id="title" placeholder="Bug Title" required>
                       </div>
 
                       <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea class="form-control" th:field="*{description}" th:value="${bug.description}" id="description" rows="4"></textarea>
+                        <textarea maxlength="1000" class="form-control" th:field="*{description}" th:value="${bug.description}" id="description" rows="4"></textarea>
                       </div>
 
                       <div th:if="${bug.status} == 'pending'" class="form-group">
